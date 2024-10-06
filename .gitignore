@@ -11,3 +11,5 @@ airflow.cfg
 airflow.db
 .credentials.json
 venv
+rsa_*
+test.py
