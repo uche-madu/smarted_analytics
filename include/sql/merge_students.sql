@@ -1,5 +1,6 @@
 MERGE INTO {{ params.schema_name }}.{{ params.table_name }} AS target
-USING @{{ params.schema_name }}.{{ params.stage_name }}/{{ params.file_name }} AS source
+USING @{{ params.schema_name }}.{{ params.stage_name }}/{{ params.file_name }}
+(FILE_FORMAT => 'csv_format_with_quotes') AS source
 ON target.student_id = source.$1
 WHEN MATCHED THEN
    UPDATE SET

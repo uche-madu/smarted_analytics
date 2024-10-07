@@ -1,16 +1,14 @@
 from airflow.decorators import dag, task, task_group
-from airflow.models.baseoperator import chain
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.utils.dates import days_ago
-import os
 import pandas as pd
 import gspread
 import logging
-from dotenv import load_dotenv
+
 from configs import (
     SERVICE_ACCOUNT_FILE,
     SHEET_CONFIG,
-
 )
 
 # Set up logging
@@ -25,7 +23,7 @@ _STAGE_NAME = "temp_stage"
 
 # Define the table names for each task
 _TABLE_NAMES = {
-    "results": "results_table",
+    "results": "results",
     "extracurricular": "extracurricular_activities",
     "health": "health_records",
     "students": "students",
@@ -33,10 +31,13 @@ _TABLE_NAMES = {
     "teachers": "teachers"
 }
 
-OUTPUT_DIR = "../data"
+OUTPUT_DIR = "/tmp/"
 
 # Derive the file paths from SHEET_CONFIG
 def get_file_name(sheet_type):
+    return OUTPUT_DIR + SHEET_CONFIG[sheet_type]["output_file"]
+
+def get_staged_file_name(sheet_type):
     return SHEET_CONFIG[sheet_type]["output_file"]
 
 # Define the DAG
@@ -46,53 +47,12 @@ def get_file_name(sheet_type):
     catchup=False,
     tags=["snowflake", "smartEd analytics"],
     template_searchpath=["include/sql"],
-    default_args={"owner": "Uche Madu"},
+    doc_md=__doc__,
+    default_args={"owner": "Uche Madu", "retries": 0},
 )
 def google_sheets_to_snowflake_dag():
 
-    # @task
-    # def extract_and_save_to_csv():
-    #     """Extract data from Google Sheets, validate its structure, merge into a single DataFrame, and save as CSV."""
-    #     logger.info("Extracting and validating data from Google Sheets...")
-    #     gc = gspread.service_account(filename=SERVICE_ACCOUNT_FILE)
-    #     sh = gc.open_by_url(GOOGLE_SHEET_URL)
-    #     spreadsheet_title = sh.title
-
-    #     # Extract and validate data from each worksheet/tab
-    #     all_data = []
-    #     required_columns = {"Student ID", "Grade Level", "Term"}
-
-    #     for worksheet in sh.worksheets():
-    #         records = worksheet.get_all_records()
-    #         if records:
-    #             df = pd.DataFrame(records)
-
-    #             # Check if the required columns are present
-    #             if not required_columns.issubset(df.columns):
-    #                 raise ValueError(f"Missing required columns in worksheet '{worksheet.title}'. Required columns: {required_columns}")
-                
-    #             all_data.append(df)
-
-    #     # Merge all data if validation passes
-    #     if all_data:
-    #         consolidated_df = pd.concat(all_data, ignore_index=True)
-    #         consolidated_df.drop_duplicates(subset=["Student ID", "Grade Level", "Term"], inplace=True)
-            
-    #         # Save the DataFrame to CSV
-    #         consolidated_df.to_csv(_FILE_PATH, index=False, header=False)
-    #         logger.info(f"Data extraction complete. Saved to {_FILE_PATH}")
-
-    #         # Log the saved CSV file content for confirmation
-    #         saved_df = pd.read_csv(_FILE_PATH)
-    #         logger.info(f"Data in saved CSV:\n{saved_df.head()}")
-
-    #         return _FILE_PATH
-    #     else:
-    #         raise ValueError(f"No valid data found in {spreadsheet_title}. Please ensure the sheets contain student data.")
-
-
-
-    def extract_and_save_to_csv(sheet_type, sheet_url, output_file_path):
+    def extract_and_save(sheet_type, sheet_url, output_file_path):
         """Extract data from Google Sheets based on specific column requirements, validate, and save as CSV."""
         logger.info(f"Extracting and validating {sheet_type} data from Google Sheets...")
 
@@ -104,6 +64,7 @@ def google_sheets_to_snowflake_dag():
         all_data = []
         for worksheet in sh.worksheets():
             records = worksheet.get_all_records()
+            
             if records:
                 df = pd.DataFrame(records)
 
@@ -117,10 +78,17 @@ def google_sheets_to_snowflake_dag():
             consolidated_df = pd.concat(all_data, ignore_index=True)
             consolidated_df.drop_duplicates(subset=list(required_columns), inplace=True)
             
+            # Convert object-type columns to string data type
+            consolidated_df = consolidated_df.astype({col: str for col in consolidated_df.select_dtypes(include='object').columns})
+
+            # Log the DataFrame before saving
+            logger.info(f"Consolidated DataFrame before removing header:\n{consolidated_df.head()}")
             # Save the DataFrame to CSV
-            consolidated_df.to_csv(output_file_path, index=False, header=True)
+            consolidated_df.to_csv(output_file_path, index=False, header=False)
             logger.info(f"{sheet_type.capitalize()} data extraction complete. Saved to {output_file_path}")
-            return output_file_path
+            # Log the DataFrame after saving
+            after_df = pd.read_csv(output_file_path)
+            logger.info(f"Consolidated DataFrame after removing header:\n{after_df.head()}")
         else:
             raise ValueError(f"No valid data found for {sheet_type}. Please ensure the sheets contain the expected data.")
 
@@ -133,14 +101,15 @@ def google_sheets_to_snowflake_dag():
             """Generic task to extract data for each sheet type."""
             config = SHEET_CONFIG[sheet_type]
             output_file = OUTPUT_DIR + config["output_file"]
-            extract_and_save_to_csv(sheet_type, config["url"], output_file)
+            extract_and_save(sheet_type, config["url"], output_file)
 
         # Creating tasks for each sheet type with unique task_ids
+        extract_result_data = extract_sheet_data.override(task_id="extract_results_data")("results")
         extract_student_data = extract_sheet_data.override(task_id="extract_students_data")("students")
         extract_parent_data = extract_sheet_data.override(task_id="extract_parents_data")("parents")
         extract_teacher_data = extract_sheet_data.override(task_id="extract_teachers_data")("teachers")
-        extract_activity_data = extract_sheet_data.override(task_id="extract_activities_data")("extracurricular_activities")
-        extract_health_data = extract_sheet_data.override(task_id="extract_health_data")("health_records")
+        extract_activity_data = extract_sheet_data.override(task_id="extract_activities_data")("extracurricular")
+        extract_health_data = extract_sheet_data.override(task_id="extract_health_data")("health")
 
 
     # Create table tasks
@@ -204,6 +173,12 @@ def google_sheets_to_snowflake_dag():
         },
     )
 
+    create_snowflake_csv_file_format_task = SQLExecuteQueryOperator(
+        task_id="create_snowflake_csv_file_format",
+        conn_id=_SNOWFLAKE_CONN_ID,
+        sql="snowflake_csv_file_format.sql",
+    )
+
     # Task to upload results CSV to Snowflake stage
     upload_results_to_stage_task = SQLExecuteQueryOperator(
         task_id="upload_results_to_stage",
@@ -260,7 +235,7 @@ def google_sheets_to_snowflake_dag():
         params={
             "schema_name": _SCHEMA_NAME,
             "stage_name": _STAGE_NAME,
-            "file_path": get_file_name("extracurricular_activities"),
+            "file_path": get_file_name("extracurricular"),
         },
     )
 
@@ -272,7 +247,7 @@ def google_sheets_to_snowflake_dag():
         params={
             "schema_name": _SCHEMA_NAME,
             "stage_name": _STAGE_NAME,
-            "file_path": get_file_name("health_records"),
+            "file_path": get_file_name("health"),
         },
     )
 
@@ -284,7 +259,7 @@ def google_sheets_to_snowflake_dag():
             "schema_name": _SCHEMA_NAME,
             "table_name": _TABLE_NAMES["results"],
             "stage_name": _STAGE_NAME,
-            "file_name": get_file_name("results")
+            "file_name": get_staged_file_name("results")
         }
     )
 
@@ -296,7 +271,7 @@ def google_sheets_to_snowflake_dag():
             "schema_name": _SCHEMA_NAME,
             "table_name": _TABLE_NAMES["students"],
             "stage_name": _STAGE_NAME,
-            "file_name": get_file_name("students")
+            "file_name": get_staged_file_name("students")
         }
     )
 
@@ -308,7 +283,7 @@ def google_sheets_to_snowflake_dag():
             "schema_name": _SCHEMA_NAME,
             "table_name": _TABLE_NAMES["parents"],
             "stage_name": _STAGE_NAME,
-            "file_name": get_file_name("parents")
+            "file_name": get_staged_file_name("parents")
         }
     )
 
@@ -320,7 +295,7 @@ def google_sheets_to_snowflake_dag():
             "schema_name": _SCHEMA_NAME,
             "table_name": _TABLE_NAMES["teachers"],
             "stage_name": _STAGE_NAME,
-            "file_name": get_file_name("teachers")
+            "file_name": get_staged_file_name("teachers")
         }
     )
 
@@ -330,9 +305,9 @@ def google_sheets_to_snowflake_dag():
         sql="merge_extracurricular.sql",
         params={
             "schema_name": _SCHEMA_NAME,
-            "table_name": _TABLE_NAMES["extracurricular_activities"],
+            "table_name": _TABLE_NAMES["extracurricular"],
             "stage_name": _STAGE_NAME,
-            "file_name": get_file_name("extracurricular_activities")
+            "file_name": get_staged_file_name("extracurricular")
         }
     )
 
@@ -342,30 +317,45 @@ def google_sheets_to_snowflake_dag():
         sql="merge_health.sql",
         params={
             "schema_name": _SCHEMA_NAME,
-            "table_name": _TABLE_NAMES["health_records"],
+            "table_name": _TABLE_NAMES["health"],
             "stage_name": _STAGE_NAME,
-            "file_name": get_file_name("health_records")
+            "file_name": get_staged_file_name("health")
         }
     )
-
 
     # Define task dependencies
     extract_sheet_task_group = extract_sheet_group()
 
-    # Set up dependencies
-    chain(
-        extract_sheet_task_group,
-        [
-            [create_results_table_task, upload_results_to_stage_task, merge_results_task],
-            [create_students_table_task, upload_students_to_stage_task, merge_students_task],
-            [create_parents_table_task, upload_parents_to_stage_task, merge_parents_task],
-            [create_teachers_table_task, upload_teachers_to_stage_task, merge_teachers_task],
-            [create_extracurricular_table_task, upload_extracurricular_to_stage_task, merge_extracurricular_task],
-            [create_health_table_task, upload_health_to_stage_task, merge_health_task]
-        ]
-    )
+    # Dummy start task
+    start = EmptyOperator(task_id="start")
+    # Dummy a synchronization task
+    sync_task = EmptyOperator(task_id="sync_extract_and_create")
 
+    create_tables_start = [
+        create_results_table_task,
+        create_students_table_task,
+        create_parents_table_task,
+        create_teachers_table_task,
+        create_extracurricular_table_task,
+        create_health_table_task,
+    ]
 
+    # Run extraction and table creation in parallel from the start
+    start >> extract_sheet_task_group
+    start >> create_tables_start
+    start >> create_snowflake_csv_file_format_task
+
+    # Use sync_task to ensure that both extract and create tasks are completed
+    extract_sheet_task_group >> sync_task
+    create_tables_start >> sync_task
+
+    # Define upload and merge dependencies for each table
+    sync_task >> upload_results_to_stage_task >> merge_results_task
+    sync_task >> upload_students_to_stage_task >> merge_students_task
+    sync_task >> upload_parents_to_stage_task >> merge_parents_task
+    sync_task >> upload_teachers_to_stage_task >> merge_teachers_task
+    sync_task >> upload_extracurricular_to_stage_task >> merge_extracurricular_task
+    sync_task >> upload_health_to_stage_task >> merge_health_task
 
 # Instantiate the DAG
 google_sheets_to_snowflake_dag()

@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{ params.schema_name }}.extracurricular_activities (
+CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     activity_id STRING PRIMARY KEY,                -- Unique identifier for each extracurricular activity
     activity_name STRING,                          -- Name of the activity (e.g., 'Soccer', 'Debate Club')
     student_id STRING,                             -- Foreign key referencing the student

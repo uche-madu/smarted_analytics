@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{ params.schema_name }}.parents (
+CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     parent_id STRING PRIMARY KEY,                -- Unique identifier for each parent
     first_name STRING NOT NULL,                  -- Parent's first name
     middle_name STRING,                          -- Parent's middle name

@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{ params.schema_name }}.teachers (
+CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     teacher_id STRING PRIMARY KEY,                -- Unique identifier for each teacher
     first_name STRING NOT NULL,                   -- Teacher's first name
     middle_name STRING,                           -- Teacher's middle name

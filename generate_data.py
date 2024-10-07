@@ -144,7 +144,7 @@ class_arms = {"Basic Science and Maths": "A", "Technical and Agricultural": "B",
 
 # Score distributions
 performance_profiles = {
-    "Poor": {"ca_mean": 3, "ca_std_dev": 3, "exam_mean": 25, "exam_std_dev": 10},
+    "Poor": {"ca_mean": 5, "ca_std_dev": 3, "exam_mean": 25, "exam_std_dev": 10},
     "Average": {"ca_mean": 8, "ca_std_dev": 3, "exam_mean": 35, "exam_std_dev": 9},
     "Above Average": {"ca_mean": 13, "ca_std_dev": 2, "exam_mean": 55, "exam_std_dev": 10}
 }
@@ -244,7 +244,7 @@ def generate_session_data(student_df, grade_level, term_name):
     
     # Extend columns to include CA1, CA2, Exam, Total, Attendance %, and Teacher Remarks
     for subject in subjects:
-        columns.extend([f"{subject} (CA1)", f"{subject} (CA2)", f"{subject} (Exam)", f"{subject} (Total)", "Attendance %", "Teacher Remarks"])
+        columns.extend([f"{subject} (CA1)", f"{subject} (CA2)", f"{subject} (Exam)", f"{subject} (Total)", f"{subject} Attendance %", f"{subject} Teacher Remarks"])
 
     data = []
     for _, row in student_df.iterrows():
@@ -360,7 +360,7 @@ def generate_extracurricular_activities(student_df, teacher_df, num_records_per_
 
     return pd.DataFrame(activity_data)
 
-def generate_health_records(student_df, num_records=3):
+def generate_health_records(student_df, num_records=2):
     # Define sample health issues paired with likely treatments
     health_issue_treatment_pairs = {
         "Asthma": "Inhaler and regular checkups",
@@ -418,6 +418,11 @@ def generate_health_records(student_df, num_records=3):
 
 # Function to update Google Sheets with generated data for each term
 def update_google_sheet(worksheet_name, dataframe, sheet_url):
+
+    # Convert all date columns to string format
+    dataframe = dataframe.astype(str)
+
+    # Open Google Sheets
     sh = gc.open_by_url(sheet_url)
     try:
         worksheet = sh.worksheet(worksheet_name)
@@ -427,7 +432,7 @@ def update_google_sheet(worksheet_name, dataframe, sheet_url):
     worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
     print(f"Updated Google Sheet: {worksheet_name}")
     # Add delay to prevent quota exceeded error
-    time.sleep(3) 
+    time.sleep(2) 
 
 def main():
     # Initialize DataFrames for consolidated storage
@@ -436,54 +441,41 @@ def main():
 
     # 1. Generate and update 'results', 'students', and 'parents' sheets for each stream, grade, and term
     for stream in streams.keys():
+        
+        student_df, parent_df = generate_student_parent_pairs(stream, num_students=30)
+        # Append generated data to master DataFrames
+        all_students_df = pd.concat([all_students_df, student_df], ignore_index=True)
+        all_parents_df = pd.concat([all_parents_df, parent_df], ignore_index=True)
+
         for grade in grade_levels:
             for term in terms:
-                student_df, parent_df = generate_student_parent_pairs(stream, num_students=30)
+                # Skip generating results for SS3 third term 
+                # because students write external exams in SS3 third term 
+                if grade == "SS3" and term == "Third":
+                    continue
+
                 results_df = generate_session_data(student_df, grade, term)
-
-                # Append generated data to master DataFrames
-                all_students_df = pd.concat([all_students_df, student_df], ignore_index=True)
-                all_parents_df = pd.concat([all_parents_df, parent_df], ignore_index=True)
-
-                # Create sheet names and update Google Sheets
-                sheet_name = f"{grade}_{stream}_{term}".replace(" ", "_")
+                sheet_name = f"{grade} {stream} {term} Term"
                 update_google_sheet(sheet_name, results_df, SHEET_CONFIG["results"]["url"])
-                update_google_sheet("Students Bio", student_df, SHEET_CONFIG["students"]["url"])
-                update_google_sheet("Parents Bio", parent_df, SHEET_CONFIG["parents"]["url"])
+    
+    # 1. Generate and update 'students' and 'parents' sheet
+    update_google_sheet("Students Bio", all_students_df, SHEET_CONFIG["students"]["url"])
+    update_google_sheet("Parents Bio", all_parents_df, SHEET_CONFIG["parents"]["url"])
 
     # 2. Generate and update 'teachers' sheet
-    teacher_df = generate_teachers(num_teachers=50)
+    teacher_df = generate_teachers(num_teachers=40)
     update_google_sheet("Teachers Bio", teacher_df, SHEET_CONFIG["teachers"]["url"])
 
     # 3. Generate and update 'extracurricular_activities' sheet
     extracurricular_df = generate_extracurricular_activities(all_students_df, teacher_df)
-    update_google_sheet("Extracurricular Activities", extracurricular_df, SHEET_CONFIG["extracurricular_activities"]["url"])
+    update_google_sheet("Extracurricular Activities", extracurricular_df, SHEET_CONFIG["extracurricular"]["url"])
 
     # 4. Generate and update 'health_records' sheet
     health_records_df = generate_health_records(all_students_df)
-    update_google_sheet("Student Health Records", health_records_df, SHEET_CONFIG["health_records"]["url"])
+    update_google_sheet("Student Health Records", health_records_df, SHEET_CONFIG["health"]["url"])
 
 if __name__ == "__main__":
-    main()
-
-
-
-# Sample Execution
-# student_df, parent_df = generate_student_parent_pairs("Basic Science and Maths", num_students=10)
-# term_scores_df = generate_session_data(student_df, "SS3", "First")
-# teacher_df = generate_teachers(num_teachers=30)
-# extracurricular_df = generate_extracurricular_activities(student_df, teacher_df)
-# health_records_df = generate_health_records(student_df)
-
-
-# print(f"Teachers Data (Shape: {teacher_df.shape}):\n", teacher_df.head())
-# print(f"\nTerm Results (Shape: {term_scores_df.shape}):\n", term_scores_df.head())
-# print(f"\nStudents Data (Shape: {student_df.shape}):\n", student_df.head())
-# print(f"\nParents Data (Shape: {parent_df.shape}):\n", parent_df.head())
-# print(f"\nExtracurricular Data (Shape: {extracurricular_df.shape}):\n", extracurricular_df.head())
-# print(f"\nHealth Records (Shape: {health_records_df.shape}):\n", health_records_df.head())
-
-
-
-
-
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

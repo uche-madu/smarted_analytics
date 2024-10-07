@@ -13,3 +13,6 @@ airflow.db
 venv
 rsa_*
 test.py
+generate_scores.py
+generation_tests.py
+old_main.py

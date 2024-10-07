@@ -1,5 +1,6 @@
 MERGE INTO {{ params.schema_name }}.{{ params.table_name }} AS target
-USING @{{ params.schema_name }}.{{ params.stage_name }}/{{ params.file_name }} AS source
+USING @{{ params.schema_name }}.{{ params.stage_name }}/{{ params.file_name }}
+(FILE_FORMAT => 'csv_format_with_quotes') AS source
 ON target.student_id = source.$1
    AND target.grade_level = source.$6
    AND target.term = source.$7
@@ -152,7 +153,7 @@ WHEN MATCHED THEN
        target.fine_art_exam = source.$148,
        target.fine_art_total = source.$149,
        target.fine_art_attendance = source.$150,
-       target.fine_art_teacher_remarks = source.$151
+       target.fine_art_teacher_remarks = source.$151,
        target.updated_at = CURRENT_TIMESTAMP  -- Updates the timestamp for modifications
 
 WHEN NOT MATCHED THEN

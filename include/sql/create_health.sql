@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE {{ params.schema_name }}.health_records (
+CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     record_id STRING PRIMARY KEY,                   -- Unique identifier for each health record
     student_id STRING,                              -- Foreign key referencing the student
     checkup_date DATE,                              -- Date of health check-up

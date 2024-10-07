@@ -1,4 +1,4 @@
-CREATE TABLE students (
+CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     student_id VARCHAR(20) PRIMARY KEY,
     first_name VARCHAR(100),
     middle_name VARCHAR(100),
@@ -14,5 +14,5 @@ CREATE TABLE students (
     parent_id VARCHAR(20),
     registration_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the record was created
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp for last update
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Timestamp for last update
 );
