@@ -1,0 +1,104 @@
+version: 2
+
+models:
+  - name: fact_student_summary
+    description: >
+      This fact table provides a comprehensive view of student performance, demographics, health, and extracurricular activities.
+      It aggregates key metrics across all terms and grades, giving an overall snapshot of student data to analyze academic progress,
+      health impacts, and activity participation.
+
+    columns:
+      - name: student_id
+        description: "Unique identifier for each student, linking this fact table to dimension tables."
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('dim_students')
+              field: student_id
+          - relationships:
+              to: ref('dim_results')
+              field: student_id
+          # - relationships:
+          #     to: ref('dim_health_records')
+          #     field: student_id
+          - relationships:
+              to: ref('dim_extracurricular_activities')
+              field: student_id
+
+      - name: student_name
+        description: "Full name of the student, sourced from the dim_students table."
+        data_tests:
+          - not_null
+
+      - name: gender
+        description: "Gender of the student."
+
+      - name: age
+        description: "Age of the student, sourced from the dim_students table."
+
+      - name: state_of_origin
+        description: "State of origin of the student."
+
+      - name: blood_group
+        description: "Blood group of the student, sourced from dim_students."
+
+      - name: genotype
+        description: "Genotype of the student, sourced from dim_students."
+
+      - name: registration_year
+        description: "Year the student registered at the school, sourced from dim_students."
+
+      - name: cumulative_average_subject_score
+        description: "Cumulative average score across all subjects over all terms, indicating the student’s overall academic performance."
+        data_tests:
+          - not_null
+
+      - name: cumulative_overall_term_score
+        description: "Total cumulative score for all subjects across all terms."
+
+      - name: cumulative_subjects_taken
+        description: "Total number of distinct subjects registered by the student over all terms."
+
+      - name: cumulative_subjects_passed
+        description: "Total number of distinct subjects the student passed across all terms."
+
+      - name: overall_cumulative_average
+        description: "Overall cumulative average score for the student across all subjects and terms."
+
+      - name: wassce_pass_likelihood
+        description: >
+          Percentage likelihood of the student passing WASSCE based on all cumulative term records.
+          This indicates the potential for meeting WASSCE requirements (5 credits including Math and English)."
+
+      - name: total_health_checkups
+        description: "Total number of health checkups conducted for the student across all terms, sourced from dim_health_records."
+
+      - name: total_admissions
+        description: "Total number of times the student was admitted to a health facility."
+
+      - name: unique_health_issues
+        description: "Count of distinct health issues encountered by the student, indicating health challenges."
+
+      - name: total_days_admitted
+        description: "Total number of days spent in the hospital, sourced from dim_health_records."
+
+      - name: num_activities
+        description: "Total distinct extracurricular activities the student has participated in, sourced from dim_extracurricular_activities."
+
+      - name: beginner_activities
+        description: "Count of extracurricular activities the student participated in at a beginner level."
+
+      - name: intermediate_activities
+        description: "Count of extracurricular activities the student participated in at an intermediate level."
+
+      - name: advanced_activities
+        description: "Count of extracurricular activities the student participated in at an advanced level."
+
+      - name: created_at
+        description: "Timestamp indicating when the record was initially created. Will not be updated on future runs."
+        data_tests:
+          - not_null
+
+      - name: updated_at
+        description: "Timestamp indicating when the record was last updated."

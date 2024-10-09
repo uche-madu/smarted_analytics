@@ -11,7 +11,13 @@ from configs import (
     SHEET_CONFIG,
 )
 
-# Set up logging
+from datetime import datetime
+import os
+from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
+from cosmos.profiles import SnowflakeUserPasswordProfileMapping
+
+
+
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
@@ -20,6 +26,7 @@ _SNOWFLAKE_CONN_ID = "snowflake_default"
 # Define constants for schema, stage, and file path
 _SCHEMA_NAME = "admin"
 _STAGE_NAME = "temp_stage"
+_DATABASE = "roshe_schools_db"
 
 # Define the table names for each task
 _TABLE_NAMES = {
@@ -39,6 +46,24 @@ def get_file_name(sheet_type):
 
 def get_staged_file_name(sheet_type):
     return SHEET_CONFIG[sheet_type]["output_file"]
+
+DBT_PROJECT_PATH = f"{os.environ['AIRFLOW_HOME']}/dags/dbt/roshe_schools_analytics"
+# The path where Cosmos will find the dbt executable
+# in the virtual environment created in the Dockerfile
+DBT_EXECUTABLE_PATH = f"{os.environ['AIRFLOW_HOME']}/dbt_venv/bin/dbt"
+EXECUTION_CONFIG = ExecutionConfig(
+    dbt_executable_path=DBT_EXECUTABLE_PATH,
+)
+
+PROFILE_CONFIG = ProfileConfig(profile_name="default",
+                               target_name="dev",
+                               profile_mapping=SnowflakeUserPasswordProfileMapping(
+                                                    conn_id=_SNOWFLAKE_CONN_ID, 
+                                                    profile_args={
+                                                        "database": _DATABASE,
+                                                        "schema": _SCHEMA_NAME
+                                                        },
+                                                    ))
 
 # Define the DAG
 @dag(
@@ -323,6 +348,13 @@ def google_sheets_to_snowflake_dag():
         }
     )
 
+    data_modeling_tasks = DbtTaskGroup(
+        group_id="data_modeling",
+        project_config=ProjectConfig(DBT_PROJECT_PATH),
+        profile_config=PROFILE_CONFIG,
+        execution_config=EXECUTION_CONFIG 
+    )
+
     # Define task dependencies
     extract_sheet_task_group = extract_sheet_group()
 
@@ -330,6 +362,8 @@ def google_sheets_to_snowflake_dag():
     start = EmptyOperator(task_id="start")
     # Dummy a synchronization task
     sync_task = EmptyOperator(task_id="sync_extract_and_create")
+    # Dummy wait task
+    wait_for_merge_tasks = EmptyOperator(task_id="wait_for_merge_tasks")
 
     create_tables_start = [
         create_results_table_task,
@@ -350,12 +384,14 @@ def google_sheets_to_snowflake_dag():
     create_tables_start >> sync_task
 
     # Define upload and merge dependencies for each table
-    sync_task >> upload_results_to_stage_task >> merge_results_task
-    sync_task >> upload_students_to_stage_task >> merge_students_task
-    sync_task >> upload_parents_to_stage_task >> merge_parents_task
-    sync_task >> upload_teachers_to_stage_task >> merge_teachers_task
-    sync_task >> upload_extracurricular_to_stage_task >> merge_extracurricular_task
-    sync_task >> upload_health_to_stage_task >> merge_health_task
+    sync_task >> upload_results_to_stage_task >> merge_results_task >> wait_for_merge_tasks
+    sync_task >> upload_students_to_stage_task >> merge_students_task >> wait_for_merge_tasks
+    sync_task >> upload_parents_to_stage_task >> merge_parents_task >> wait_for_merge_tasks
+    sync_task >> upload_teachers_to_stage_task >> merge_teachers_task >> wait_for_merge_tasks
+    sync_task >> upload_extracurricular_to_stage_task >> merge_extracurricular_task >> wait_for_merge_tasks
+    sync_task >> upload_health_to_stage_task >> merge_health_task >> wait_for_merge_tasks
+
+    wait_for_merge_tasks >> data_modeling_tasks
 
 # Instantiate the DAG
 google_sheets_to_snowflake_dag()

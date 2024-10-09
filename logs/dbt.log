@@ -1,0 +1,99 @@
+[0m11:12:37.993492 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa47d584770>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa47fa62c60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa47d8dc5c0>]}
+
+
+============================== 11:12:38.190019 | 8012498f-dda5-47a9-a4b9-c116f1f7be44 ==============================
+[0m11:12:38.190019 [info ] [MainThread]: Running with dbt=1.8.7
+[0m11:12:38.192876 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/uchemadu/.dbt', 'version_check': 'True', 'debug': 'False', 'log_path': 'logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'introspect': 'True', 'static_parser': 'True', 'invocation_command': 'dbt debug', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m11:12:38.453726 [info ] [MainThread]: dbt version: 1.8.7
+[0m11:12:38.455871 [info ] [MainThread]: python version: 3.12.3
+[0m11:12:38.457685 [info ] [MainThread]: python path: /home/uchemadu/dbt_airflow/venv/bin/python
+[0m11:12:38.460371 [info ] [MainThread]: os info: Linux-5.10.102.1-microsoft-standard-WSL2-x86_64-with-glibc2.39
+[0m11:13:23.767527 [info ] [MainThread]: Using profiles dir at /home/uchemadu/.dbt
+[0m11:13:23.768096 [info ] [MainThread]: Using profiles.yml file at /home/uchemadu/.dbt/profiles.yml
+[0m11:13:23.768601 [info ] [MainThread]: Using dbt_project.yml file at /home/uchemadu/dbt_airflow/dbt_project.yml
+[0m11:13:23.769203 [error] [MainThread]: Encountered an error:
+Internal Error
+  Profile should not be None if loading profile completed
+[0m11:13:23.856121 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_wall_clock_time": 46.116745, "process_user_time": 17.8001, "process_kernel_time": 12.370934, "process_mem_max_rss": "203796", "process_in_blocks": "211784", "process_out_blocks": "16", "command_success": false}
+[0m11:13:23.857312 [debug] [MainThread]: Command `dbt debug` failed at 11:13:23.857115 after 46.14 seconds
+[0m11:13:23.858109 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa47dd45af0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa45b8a2900>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa460dd0ce0>]}
+[0m11:13:23.858907 [debug] [MainThread]: Flushing usage events
+[0m11:19:35.233859 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f8ba4081b80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f8ba3b4e3f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f8ba18d02c0>]}
+
+
+============================== 11:19:35.238085 | c5cac90f-3d65-4cea-bbc5-88024e18a4a6 ==============================
+[0m11:19:35.238085 [info ] [MainThread]: Running with dbt=1.8.7
+[0m11:19:35.239186 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'profiles_dir': '/home/uchemadu/.dbt', 'log_path': 'logs', 'version_check': 'True', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'log_format': 'default', 'invocation_command': 'dbt debug --profile roshe_schools_analytics', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m11:19:35.251217 [info ] [MainThread]: dbt version: 1.8.7
+[0m11:19:35.251855 [info ] [MainThread]: python version: 3.12.3
+[0m11:19:35.252451 [info ] [MainThread]: python path: /home/uchemadu/dbt_airflow/venv/bin/python
+[0m11:19:35.253068 [info ] [MainThread]: os info: Linux-5.10.102.1-microsoft-standard-WSL2-x86_64-with-glibc2.39
+[0m11:19:36.037468 [info ] [MainThread]: Using profiles dir at /home/uchemadu/.dbt
+[0m11:19:36.038091 [info ] [MainThread]: Using profiles.yml file at /home/uchemadu/.dbt/profiles.yml
+[0m11:19:36.038550 [info ] [MainThread]: Using dbt_project.yml file at /home/uchemadu/dbt_airflow/dbt_project.yml
+[0m11:19:36.107251 [info ] [MainThread]: adapter type: snowflake
+[0m11:19:36.108489 [info ] [MainThread]: adapter version: 1.8.3
+[0m11:19:36.109888 [info ] [MainThread]: Configuration:
+[0m11:19:36.111271 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m11:19:36.112167 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m11:19:36.112595 [info ] [MainThread]: Required dependencies:
+[0m11:19:36.113038 [debug] [MainThread]: Executing "git --help"
+[0m11:19:36.236846 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           [--config-env=<name>=<envvar>] <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m11:19:36.238942 [debug] [MainThread]: STDERR: "b''"
+[0m11:19:36.240824 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m11:19:36.244091 [info ] [MainThread]: Connection:
+[0m11:19:36.247553 [info ] [MainThread]:   account: qa11672.eu-central-2.aws
+[0m11:19:36.249773 [info ] [MainThread]:   user: UCHEMADU
+[0m11:19:36.250835 [info ] [MainThread]:   database: ROSHE_SCHOOLS_DB
+[0m11:19:36.251448 [info ] [MainThread]:   warehouse: SMARTED
+[0m11:19:36.252027 [info ] [MainThread]:   role: ACCOUNTADMIN
+[0m11:19:36.252831 [info ] [MainThread]:   schema: ADMIN
+[0m11:19:36.253594 [info ] [MainThread]:   authenticator: None
+[0m11:19:36.254125 [info ] [MainThread]:   oauth_client_id: None
+[0m11:19:36.254591 [info ] [MainThread]:   query_tag: None
+[0m11:19:36.255012 [info ] [MainThread]:   client_session_keep_alive: False
+[0m11:19:36.255439 [info ] [MainThread]:   host: None
+[0m11:19:36.255961 [info ] [MainThread]:   port: None
+[0m11:19:36.256448 [info ] [MainThread]:   proxy_host: None
+[0m11:19:36.256932 [info ] [MainThread]:   proxy_port: None
+[0m11:19:36.257411 [info ] [MainThread]:   protocol: None
+[0m11:19:36.257873 [info ] [MainThread]:   connect_retries: 1
+[0m11:19:36.258348 [info ] [MainThread]:   connect_timeout: None
+[0m11:19:36.258793 [info ] [MainThread]:   retry_on_database_errors: False
+[0m11:19:36.259269 [info ] [MainThread]:   retry_all: False
+[0m11:19:36.259713 [info ] [MainThread]:   insecure_mode: False
+[0m11:19:36.260185 [info ] [MainThread]:   reuse_connections: None
+[0m11:19:36.260852 [info ] [MainThread]: Registered adapter: snowflake=1.8.3
+[0m11:19:36.428313 [debug] [MainThread]: Acquiring new snowflake connection 'debug'
+[0m11:19:36.429351 [debug] [MainThread]: Using snowflake connection "debug"
+[0m11:19:36.429912 [debug] [MainThread]: On debug: select 1 as id
+[0m11:19:36.430409 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m11:19:41.529894 [debug] [MainThread]: SQL status: SUCCESS 1 in 5.099 seconds
+[0m11:19:41.531221 [debug] [MainThread]: On debug: Close
+[0m11:19:42.096628 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m11:19:42.097302 [info ] [MainThread]: [31m1 check failed:[0m
+[0m11:19:42.097947 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </home/uchemadu/dbt_airflow/dbt_project.yml> not found
+
+[0m11:19:42.099249 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_wall_clock_time": 6.932607, "process_user_time": 3.726989, "process_kernel_time": 1.173759, "process_mem_max_rss": "212436", "process_in_blocks": "6896", "process_out_blocks": "1104", "command_success": false}
+[0m11:19:42.099989 [debug] [MainThread]: Command `dbt debug` failed at 11:19:42.099845 after 6.93 seconds
+[0m11:19:42.100468 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m11:19:42.100918 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f8ba4081b80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f8ba182dc10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f8b8616f320>]}
+[0m11:19:42.101410 [debug] [MainThread]: Flushing usage events
+[0m11:34:31.418440 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff0da775070>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff0d8664140>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff0da9b6000>]}
+
+
+============================== 11:34:31.421410 | 7b7fc388-ae7a-4b7e-a3d9-b2847c00ee45 ==============================
+[0m11:34:31.421410 [info ] [MainThread]: Running with dbt=1.8.7
+[0m11:34:31.422047 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/uchemadu/.dbt', 'fail_fast': 'False', 'debug': 'False', 'log_path': 'logs', 'version_check': 'True', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'log_format': 'default', 'introspect': 'True', 'target_path': 'None', 'invocation_command': 'dbt test -m dim_results', 'send_anonymous_usage_stats': 'True'}
+[0m11:34:31.422594 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /home/uchemadu/dbt_airflow/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m11:34:31.424423 [debug] [MainThread]: Resource report: {"command_name": "test", "command_wall_clock_time": 0.054044925, "process_user_time": 1.379863, "process_kernel_time": 0.119988, "process_mem_max_rss": "91528", "process_out_blocks": "16", "command_success": false, "process_in_blocks": "0"}
+[0m11:34:31.425203 [debug] [MainThread]: Command `dbt test` failed at 11:34:31.425067 after 0.06 seconds
+[0m11:34:31.425637 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff0d8a63d70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff0da775070>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ff0dbf1b5c0>]}
+[0m11:34:31.426163 [debug] [MainThread]: Flushing usage events

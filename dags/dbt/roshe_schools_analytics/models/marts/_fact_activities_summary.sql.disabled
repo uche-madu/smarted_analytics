@@ -1,0 +1,102 @@
+WITH student_activity_events AS (
+    SELECT
+        sa.student_id,
+        da.activity_id,
+        da.activity_name,
+        da.teacher_id,
+        da.teacher_count,
+        da.total_students,
+        da.beginner_count,
+        da.intermediate_count,
+        da.advanced_count,
+        sa.participation_level,
+        MIN(sa.date_joined) AS first_activity_date,
+        MAX(sa.date_joined) AS latest_activity_date,
+        DATEDIFF(day, MIN(sa.date_joined), MAX(sa.date_joined)) AS activity_duration_days,
+        ROW_NUMBER() OVER (PARTITION BY sa.student_id ORDER BY COUNT(sa.activity_id) DESC) AS activity_rank,
+        ROW_NUMBER() OVER (PARTITION BY sa.student_id ORDER BY COUNT(sa.teacher_id) DESC) AS teacher_rank
+    FROM {{ ref('dim_extracurricular_activities') }} sa
+    LEFT JOIN {{ ref('dim_activities') }} da
+    ON sa.activity_id = da.activity_id
+    GROUP BY sa.student_id, da.activity_id, da.activity_name, da.teacher_id, da.teacher_count, da.total_students, da.beginner_count, da.intermediate_count, da.advanced_count, sa.participation_level
+),
+
+student_activity_summary AS (
+    SELECT
+        student_id,
+        COUNT(DISTINCT activity_id) AS distinct_activities,
+        SUM(CASE WHEN participation_level = 'Beginner' THEN 1 ELSE 0 END) AS beginner_activities,
+        SUM(CASE WHEN participation_level = 'Intermediate' THEN 1 ELSE 0 END) AS intermediate_activities,
+        SUM(CASE WHEN participation_level = 'Advanced' THEN 1 ELSE 0 END) AS advanced_activities,
+        MIN(first_activity_date) AS initial_participation_date,
+        MAX(latest_activity_date) AS most_recent_participation_date,
+        SUM(activity_duration_days) / 365.0 AS total_years_in_activities,
+        MAX(CASE WHEN activity_rank = 1 THEN activity_name END) AS favorite_activity,
+        MAX(CASE WHEN teacher_rank = 1 THEN teacher_id END) AS favorite_teacher_id
+    FROM student_activity_events
+    GROUP BY student_id
+)
+
+SELECT
+    student_id,
+    distinct_activities AS num_activities,
+    beginner_activities,
+    intermediate_activities,
+    advanced_activities AS num_advanced_activities,
+    initial_participation_date AS first_activity_joined,
+    most_recent_participation_date AS last_activity_joined,
+    total_years_in_activities,
+    favorite_activity,
+    favorite_teacher_id,
+    CURRENT_TIMESTAMP AS created_at,
+    CURRENT_TIMESTAMP AS updated_at
+FROM student_activity_summary
+
+
+{{ config(
+    materialized='incremental',
+    unique_key='student_id'
+) }}
+
+WITH health_event_details AS (
+    SELECT
+        student_id,
+        COUNT(record_id) AS total_health_checkups,
+        COUNT(DISTINCT CASE WHEN admitted = 'Yes' THEN record_id END) AS total_admissions,
+        COUNT(DISTINCT health_issues) AS unique_health_issues,
+        COUNT(DISTINCT treatment) AS unique_treatments,
+        COUNT(DISTINCT doctor) AS doctors_consulted,
+        MIN(admission_date) AS first_admission_date,
+        MAX(discharge_date) AS most_recent_discharge_date,
+        DATEDIFF('day', MIN(admission_date), MAX(discharge_date)) AS total_days_admitted,
+        COUNT(DISTINCT follow_up_date) AS follow_up_visits,
+        SUM(CASE WHEN admitted = 'Yes' THEN 1 ELSE 0 END) AS impact_on_attendance,
+        CASE WHEN COUNT(DISTINCT health_issues) > 3 THEN 1 ELSE 0 END AS chronic_issues_flag,
+        COUNT(DISTINCT CASE WHEN follow_up_date IS NOT NULL THEN term END) AS doctor_visits_per_term,
+        MAX(updated_at) AS updated_at,
+        CURRENT_TIMESTAMP AS created_at
+    FROM {{ ref('stg_health_records') }}
+{% if is_incremental() %}
+        WHERE updated_at > (SELECT MAX(updated_at) FROM {{ this }})
+    {% endif %}
+GROUP BY student_id
+)
+
+SELECT
+    student_id,
+    total_health_checkups,
+    unique_health_issues,
+    unique_treatments,
+    total_admissions,
+    doctors_consulted,
+    first_admission_date,
+    most_recent_discharge_date,
+    total_days_admitted,
+    follow_up_visits,
+    impact_on_attendance,         -- Impact on attendance (absences due to health)
+    chronic_issues_flag,          -- Chronic health issues flag
+    doctor_visits_per_term,       -- Doctor visits per term
+    created_at,
+    updated_at
+FROM health_event_details;
+

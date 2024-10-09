@@ -1,0 +1,577 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: Bronze layer with raw data loaded from various sources.
+    database: roshe_schools_db
+    schema: admin
+    tables:
+      - name: results
+        description: Raw exam results data with detailed scores for various subjects.
+        columns:
+          - name: student_id
+            description: Identifier for each student
+            data_tests:
+              - not_null
+          - name: name
+            description: Full name of the student
+          - name: stream
+            description: Academic stream the student belongs to
+          - name: academic_year
+            description: Academic year (e.g., '2022/2023')
+          - name: class_arm
+            description: Class arm (e.g., 'A', 'B')
+          - name: grade_level
+            description: Grade level (e.g., 'SS1', 'JS2')
+          - name: term
+            description: Academic term (e.g., 'First', 'Second')
+
+          # English Language fields
+          - name: english_language_ca1
+            description: English Language Continuous Assessment 1 score
+          - name: english_language_ca2
+            description: English Language Continuous Assessment 2 score
+          - name: english_language_exam
+            description: English Language Exam score
+          - name: english_language_total
+            description: Total English Language score
+          - name: english_language_attendance
+            description: Attendance percentage for English Language
+          - name: english_language_teacher_remarks
+            description: Teacher's remarks for English Language
+
+          # Mathematics fields
+          - name: mathematics_ca1
+            description: Mathematics Continuous Assessment 1 score
+          - name: mathematics_ca2
+            description: Mathematics Continuous Assessment 2 score
+          - name: mathematics_exam
+            description: Mathematics Exam score
+          - name: mathematics_total
+            description: Total Mathematics score
+          - name: mathematics_attendance
+            description: Attendance percentage for Mathematics
+          - name: mathematics_teacher_remarks
+            description: Teacher's remarks for Mathematics
+
+          # Civic Education fields
+          - name: civic_education_ca1
+            description: Civic Education Continuous Assessment 1 score
+          - name: civic_education_ca2
+            description: Civic Education Continuous Assessment 2 score
+          - name: civic_education_exam
+            description: Civic Education Exam score
+          - name: civic_education_total
+            description: Total Civic Education score
+          - name: civic_education_attendance
+            description: Attendance percentage for Civic Education
+          - name: civic_education_teacher_remarks
+            description: Teacher's remarks for Civic Education
+
+          # Biology fields
+          - name: biology_ca1
+            description: Biology Continuous Assessment 1 score
+          - name: biology_ca2
+            description: Biology Continuous Assessment 2 score
+          - name: biology_exam
+            description: Biology Exam score
+          - name: biology_total
+            description: Total Biology score
+          - name: biology_attendance
+            description: Attendance percentage for Biology
+          - name: biology_teacher_remarks
+            description: Teacher's remarks for Biology
+
+          # Physics fields
+          - name: physics_ca1
+            description: Physics Continuous Assessment 1 score
+          - name: physics_ca2
+            description: Physics Continuous Assessment 2 score
+          - name: physics_exam
+            description: Physics Exam score
+          - name: physics_total
+            description: Total Physics score
+          - name: physics_attendance
+            description: Attendance percentage for Physics
+          - name: physics_teacher_remarks
+            description: Teacher's remarks for Physics
+
+          # Chemistry fields
+          - name: chemistry_ca1
+            description: Chemistry Continuous Assessment 1 score
+          - name: chemistry_ca2
+            description: Chemistry Continuous Assessment 2 score
+          - name: chemistry_exam
+            description: Chemistry Exam score
+          - name: chemistry_total
+            description: Total Chemistry score
+          - name: chemistry_attendance
+            description: Attendance percentage for Chemistry
+          - name: chemistry_teacher_remarks
+            description: Teacher's remarks for Chemistry
+
+          # Further Mathematics fields
+          - name: further_mathematics_ca1
+            description: Further Mathematics Continuous Assessment 1 score
+          - name: further_mathematics_ca2
+            description: Further Mathematics Continuous Assessment 2 score
+          - name: further_mathematics_exam
+            description: Further Mathematics Exam score
+          - name: further_mathematics_total
+            description: Total Further Mathematics score
+          - name: further_mathematics_attendance
+            description: Attendance percentage for Further Mathematics
+          - name: further_mathematics_teacher_remarks
+            description: Teacher's remarks for Further Mathematics
+
+          # Health Education fields
+          - name: health_education_ca1
+            description: Health Education Continuous Assessment 1 score
+          - name: health_education_ca2
+            description: Health Education Continuous Assessment 2 score
+          - name: health_education_exam
+            description: Health Education Exam score
+          - name: health_education_total
+            description: Total Health Education score
+          - name: health_education_attendance
+            description: Attendance percentage for Health Education
+          - name: health_education_teacher_remarks
+            description: Teacher's remarks for Health Education
+
+          # Computer Science fields
+          - name: computer_science_ca1
+            description: Computer Science Continuous Assessment 1 score
+          - name: computer_science_ca2
+            description: Computer Science Continuous Assessment 2 score
+          - name: computer_science_exam
+            description: Computer Science Exam score
+          - name: computer_science_total
+            description: Total Computer Science score
+          - name: computer_science_attendance
+            description: Attendance percentage for Computer Science
+          - name: computer_science_teacher_remarks
+            description: Teacher's remarks for Computer Science
+
+          # Technical Drawing fields
+          - name: technical_drawing_ca1
+            description: Technical Drawing Continuous Assessment 1 score
+          - name: technical_drawing_ca2
+            description: Technical Drawing Continuous Assessment 2 score
+          - name: technical_drawing_exam
+            description: Technical Drawing Exam score
+          - name: technical_drawing_total
+            description: Total Technical Drawing score
+          - name: technical_drawing_attendance
+            description: Attendance percentage for Technical Drawing
+          - name: technical_drawing_teacher_remarks
+            description: Teacher's remarks for Technical Drawing
+
+          # Food and Nutrition fields
+          - name: food_and_nutrition_ca1
+            description: Food and Nutrition Continuous Assessment 1 score
+          - name: food_and_nutrition_ca2
+            description: Food and Nutrition Continuous Assessment 2 score
+          - name: food_and_nutrition_exam
+            description: Food and Nutrition Exam score
+          - name: food_and_nutrition_total
+            description: Total Food and Nutrition score
+          - name: food_and_nutrition_attendance
+            description: Attendance percentage for Food and Nutrition
+          - name: food_and_nutrition_teacher_remarks
+            description: Teacher's remarks for Food and Nutrition
+
+          # Agricultural Science fields
+          - name: agricultural_science_ca1
+            description: Agricultural Science Continuous Assessment 1 score
+          - name: agricultural_science_ca2
+            description: Agricultural Science Continuous Assessment 2 score
+          - name: agricultural_science_exam
+            description: Agricultural Science Exam score
+          - name: agricultural_science_total
+            description: Total Agricultural Science score
+          - name: agricultural_science_attendance
+            description: Attendance percentage for Agricultural Science
+          - name: agricultural_science_teacher_remarks
+            description: Teacher's remarks for Agricultural Science
+
+          # Financial Accounting fields
+          - name: financial_accounting_ca1
+            description: Financial Accounting Continuous Assessment 1 score
+          - name: financial_accounting_ca2
+            description: Financial Accounting Continuous Assessment 2 score
+          - name: financial_accounting_exam
+            description: Financial Accounting Exam score
+          - name: financial_accounting_total
+            description: Total Financial Accounting score
+          - name: financial_accounting_attendance
+            description: Attendance percentage for Financial Accounting
+          - name: financial_accounting_teacher_remarks
+            description: Teacher's remarks for Financial Accounting
+
+          # Book Keeping fields
+          - name: book_keeping_ca1
+            description: Book Keeping Continuous Assessment 1 score
+          - name: book_keeping_ca2
+            description: Book Keeping Continuous Assessment 2 score
+          - name: book_keeping_exam
+            description: Book Keeping Exam score
+          - name: book_keeping_total
+            description: Total Book Keeping score
+          - name: book_keeping_attendance
+            description: Attendance percentage for Book Keeping
+          - name: book_keeping_teacher_remarks
+            description: Teacher's remarks for Book Keeping
+
+          # Commerce fields
+          - name: commerce_ca1
+            description: Commerce Continuous Assessment 1 score
+          - name: commerce_ca2
+            description: Commerce Continuous Assessment 2 score
+          - name: commerce_exam
+            description: Commerce Exam score
+          - name: commerce_total
+            description: Total Commerce score
+          - name: commerce_attendance
+            description: Attendance percentage for Commerce
+          - name: commerce_teacher_remarks
+            description: Teacher's remarks for Commerce
+
+          # Data Processing fields
+          - name: data_processing_ca1
+            description: Data Processing Continuous Assessment 1 score
+          - name: data_processing_ca2
+            description: Data Processing Continuous Assessment 2 score
+          - name: data_processing_exam
+            description: Data Processing Exam score
+          - name: data_processing_total
+            description: Total Data Processing score
+          - name: data_processing_attendance
+            description: Attendance percentage for Data Processing
+          - name: data_processing_teacher_remarks
+            description: Teacher's remarks for Data Processing
+
+          # Office Practice fields
+          - name: office_practice_ca1
+            description: Office Practice Continuous Assessment 1 score
+          - name: office_practice_ca2
+            description: Office Practice Continuous Assessment 2 score
+          - name: office_practice_exam
+            description: Office Practice Exam score
+          - name: office_practice_total
+            description: Total Office Practice score
+          - name: office_practice_attendance
+            description: Attendance percentage for Office Practice
+          - name: office_practice_teacher_remarks
+            description: Teacher's remarks for Office Practice
+
+          # Typewriting fields
+          - name: typewriting_ca1
+            description: Typewriting Continuous Assessment 1 score
+          - name: typewriting_ca2
+            description: Typewriting Continuous Assessment 2 score
+          - name: typewriting_exam
+            description: Typewriting Exam score
+          - name: typewriting_total
+            description: Total Typewriting score
+          - name: typewriting_attendance
+            description: Attendance percentage for Typewriting
+          - name: typewriting_teacher_remarks
+            description: Teacher's remarks for Typewriting
+
+          # Economics fields
+          - name: economics_ca1
+            description: Economics Continuous Assessment 1 score
+          - name: economics_ca2
+            description: Economics Continuous Assessment 2 score
+          - name: economics_exam
+            description: Economics Exam score
+          - name: economics_total
+            description: Total Economics score
+          - name: economics_attendance
+            description: Attendance percentage for Economics
+          - name: economics_teacher_remarks
+            description: Teacher's remarks for Economics
+
+          # Government fields
+          - name: government_ca1
+            description: Government Continuous Assessment 1 score
+          - name: government_ca2
+            description: Government Continuous Assessment 2 score
+          - name: government_exam
+            description: Government Exam score
+          - name: government_total
+            description: Total Government score
+          - name: government_attendance
+            description: Attendance percentage for Government
+          - name: government_teacher_remarks
+            description: Teacher's remarks for Government
+
+          # Literature in English fields
+          - name: literature_in_english_ca1
+            description: Literature in English Continuous Assessment 1 score
+          - name: literature_in_english_ca2
+            description: Literature in English Continuous Assessment 2 score
+          - name: literature_in_english_exam
+            description: Literature in English Exam score
+          - name: literature_in_english_total
+            description: Total Literature in English score
+          - name: literature_in_english_attendance
+            description: Attendance percentage for Literature in English
+          - name: literature_in_english_teacher_remarks
+            description: Teacher's remarks for Literature in English
+
+          # Christian Religion Knowledge fields
+          - name: christian_religion_knowledge_ca1
+            description: Christian Religion Knowledge Continuous Assessment 1 score
+          - name: christian_religion_knowledge_ca2
+            description: Christian Religion Knowledge Continuous Assessment 2 score
+          - name: christian_religion_knowledge_exam
+            description: Christian Religion Knowledge Exam score
+          - name: christian_religion_knowledge_total
+            description: Total Christian Religion Knowledge score
+          - name: christian_religion_knowledge_attendance
+            description: Attendance percentage for Christian Religion Knowledge
+          - name: christian_religion_knowledge_teacher_remarks
+            description: Teacher's remarks for Christian Religion Knowledge
+
+          # Geography fields
+          - name: geography_ca1
+            description: Geography Continuous Assessment 1 score
+          - name: geography_ca2
+            description: Geography Continuous Assessment 2 score
+          - name: geography_exam
+            description: Geography Exam score
+          - name: geography_total
+            description: Total Geography score
+          - name: geography_attendance
+            description: Attendance percentage for Geography
+          - name: geography_teacher_remarks
+            description: Teacher's remarks for Geography
+
+          # Fine Art fields
+          - name: fine_art_ca1
+            description: Fine Art Continuous Assessment 1 score
+          - name: fine_art_ca2
+            description: Fine Art Continuous Assessment 2 score
+          - name: fine_art_exam
+            description: Fine Art Exam score
+          - name: fine_art_total
+            description: Total Fine Art score
+          - name: fine_art_attendance
+            description: Attendance percentage for Fine Art
+          - name: fine_art_teacher_remarks
+            description: Teacher's remarks for Fine Art
+
+          # Metadata fields
+          - name: created_at
+            description: Timestamp when the record was created
+            data_tests:
+              - not_null
+          - name: updated_at
+            description: Timestamp for the last update of the record
+            data_tests:
+              - not_null
+      
+      - name: teachers
+        description: Table containing details about teachers, their qualifications, and subjects they teach.
+        columns:
+          - name: teacher_id
+            description: Unique identifier for each teacher.
+            data_tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: Teacher's first name.
+            data_tests:
+              - not_null
+          - name: middle_name
+            description: Teacher's middle name.
+          - name: last_name
+            description: Teacher's last name.
+            data_tests:
+              - not_null
+          - name: gender
+            description: Gender of the teacher.
+          - name: date_of_birth
+            description: Teacher's date of birth.
+          - name: phone_number
+            description: Teacher's contact phone number.
+            data_tests:
+              - unique
+          - name: email
+            description: Teacher's email address.
+            data_tests:
+              - unique
+          - name: address
+            description: Residential address of the teacher.
+          - name: hire_date
+            description: Date the teacher was hired.
+          - name: subject
+            description: Subject the teacher teaches.
+          - name: qualification
+            description: Teacher's qualifications (e.g., B.Ed., M.Sc.).
+          - name: years_of_experience
+            description: Number of years of teaching experience.
+          - name: created_at
+            description: Timestamp indicating when the record was created.
+            data_tests:
+              - not_null
+          - name: updated_at
+            description: Timestamp for the last update of the record.
+            data_tests:
+              - not_null
+      - name: students
+        description: Table containing student details, including personal information and academic details.
+        columns:
+          - name: student_id
+            description: Unique identifier for each student.
+            data_tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: Student's first name.
+            data_tests:
+              - not_null
+          - name: middle_name
+            description: Student's middle name.
+          - name: last_name
+            description: Student's last name.
+            data_tests:
+              - not_null
+          - name: gender
+            description: Student's gender.
+          - name: date_of_birth
+            description: Student's date of birth.
+          - name: stream
+            description: Academic stream the student belongs to.
+          - name: grade_level
+            description: Grade level of the student (e.g., 'SS1', 'JS2').
+          - name: blood_group
+            description: Student's blood group.
+          - name: genotype
+            description: Student's genotype.
+          - name: state_of_origin
+            description: State of origin of the student.
+          - name: address
+            description: Residential address of the student.
+          - name: parent_id
+            description: Identifier for the student's parent.
+          - name: registration_date
+            description: Date when the student was registered.
+          - name: created_at
+            description: Timestamp indicating when the record was created.
+            data_tests:
+              - not_null
+          - name: updated_at
+            description: Timestamp for the last update of the record.
+            data_tests:
+              - not_null
+
+      - name: parents
+        description: Table containing parent details, including personal information and relationship to students.
+        columns:
+          - name: parent_id
+            description: Unique identifier for each parent.
+            data_tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: Parent's first name.
+            data_tests:
+              - not_null
+          - name: middle_name
+            description: Parent's middle name.
+          - name: last_name
+            description: Parent's last name.
+            data_tests:
+              - not_null
+          - name: gender
+            description: Parent's gender.
+          - name: marital_status
+            description: Marital status (e.g., 'Married', 'Single').
+          - name: phone_number
+            description: Contact phone number.
+            data_tests:
+              - unique
+          - name: email
+            description: Parent's email address.
+            data_tests:
+              - unique
+          - name: address
+            description: Residential address of the parent.
+          - name: occupation
+            description: Parent's occupation.
+          - name: relationship_to_student
+            description: Relationship to student (e.g., 'Father', 'Mother').
+          - name: created_at
+            description: Timestamp indicating when the record was created.
+            data_tests:
+              - not_null
+          - name: updated_at
+            description: Timestamp for the last update of the record.
+            data_tests:
+              - not_null
+
+      - name: health_records
+        description: Table containing student health check-up records, treatments, and follow-up details.
+        columns:
+          - name: record_id
+            description: Unique identifier for each health record.
+            data_tests:
+              - unique
+              - not_null
+          - name: student_id
+            description: Foreign key referencing the student.
+          - name: checkup_date
+            description: Date of the health check-up.
+          - name: health_issues
+            description: Health issues identified during the check-up.
+          - name: treatment
+            description: Treatment recommended or administered.
+          - name: admitted
+            description: Whether or not there was a hospital or clinic admission.
+          - name: admission_date
+            description: If applicable, date of hospital admission.
+          - name: discharge_date
+            description: If applicable, date of discharge.
+          - name: doctor
+            description: Name of the doctor or medical personnel.
+          - name: follow_up_date
+            description: Follow-up date for health issues, if applicable.
+          - name: created_at
+            description: Timestamp when the record was created.
+            data_tests:
+              - not_null
+          - name: updated_at
+            description: Timestamp for the last update of the record.
+            data_tests:
+              - not_null
+
+      - name: extracurricular_activities
+        description: Contains details of students' participation in various extracurricular activities.
+        columns:
+          - name: activity_id
+            description: Unique identifier for each extracurricular activity.
+            data_tests:
+              # - unique # should be unique, current data is faulty
+              - not_null
+          - name: activity_name
+            description: Name of the activity (e.g., 'Soccer', 'Debate Club').
+            data_tests:
+              - not_null
+          - name: student_id
+            description: Foreign key referencing the student.
+          - name: participation_level
+            description: Participation level 'Beginner', 'Intermediate', 'Advanced'.
+          - name: teacher_id
+            description: Teacher overseeing the activity.
+          - name: date_joined
+            description: Date the student joined the activity.
+          - name: created_at
+            description: Timestamp when the record was created.
+            data_tests:
+              - not_null
+          - name: updated_at
+            description: Timestamp for the last update of the record.
+            data_tests:
+              - not_null
