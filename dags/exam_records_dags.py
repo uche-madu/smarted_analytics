@@ -5,17 +5,14 @@ from airflow.utils.dates import days_ago
 import pandas as pd
 import gspread
 import logging
+import os
+from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
+from cosmos.profiles import SnowflakeUserPasswordProfileMapping
 
 from configs import (
     SERVICE_ACCOUNT_FILE,
     SHEET_CONFIG,
 )
-
-from datetime import datetime
-import os
-from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
-from cosmos.profiles import SnowflakeUserPasswordProfileMapping
-
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -61,7 +58,8 @@ PROFILE_CONFIG = ProfileConfig(profile_name="default",
                                                     conn_id=_SNOWFLAKE_CONN_ID, 
                                                     profile_args={
                                                         "database": _DATABASE,
-                                                        "schema": _SCHEMA_NAME
+                                                        "schema": _SCHEMA_NAME,
+                                                        "threads": 6
                                                         },
                                                     ))
 
@@ -108,6 +106,7 @@ def google_sheets_to_snowflake_dag():
 
             # Log the DataFrame before saving
             logger.info(f"Consolidated DataFrame before removing header:\n{consolidated_df.head()}")
+            
             # Save the DataFrame to CSV
             consolidated_df.to_csv(output_file_path, index=False, header=False)
             logger.info(f"{sheet_type.capitalize()} data extraction complete. Saved to {output_file_path}")
@@ -352,7 +351,10 @@ def google_sheets_to_snowflake_dag():
         group_id="data_modeling",
         project_config=ProjectConfig(DBT_PROJECT_PATH),
         profile_config=PROFILE_CONFIG,
-        execution_config=EXECUTION_CONFIG 
+        execution_config=EXECUTION_CONFIG,
+        operator_args={
+                "install_deps": True
+            }
     )
 
     # Define task dependencies

@@ -1,3 +1,4 @@
+-- Added: Ensured all relevant attendance fields are present in subject_grades
 WITH subject_grades AS (
     SELECT
         student_id,
@@ -7,32 +8,9 @@ WITH subject_grades AS (
         class_arm,
         grade_level,
         term,
-        {{ generate_subject_fields([
-            'english_language', 
-            'mathematics', 
-            'civic_education',
-            'biology',
-            'physics',
-            'chemistry',
-            'further_mathematics',
-            'health_education',
-            'computer_science',
-            'technical_drawing',
-            'food_and_nutrition',
-            'agricultural_science',
-            'financial_accounting',
-            'book_keeping',
-            'commerce',
-            'data_processing',
-            'office_practice',
-            'typewriting',
-            'economics',
-            'government',
-            'literature_in_english',
-            'christian_religion_knowledge',
-            'geography',
-            'fine_art'
-        ]) }},
+        {{ generate_subject_case_statements('stg_results') }},
+        {{ generate_aggregate_attendance('stg_results') }} AS aggregate_attendance_percentage,
+        {{ calculate_average_total_score('stg_results') }}  AS average_total_score,
         created_at,
         updated_at
     FROM {{ ref('stg_results') }}
@@ -40,39 +18,7 @@ WITH subject_grades AS (
 
 final_table AS (
     SELECT
-        student_id,
-        name,
-        stream,
-        academic_year,
-        class_arm,
-        grade_level,
-        term,
-        {{ generate_subject_fields([
-            'english_language', 
-            'mathematics', 
-            'civic_education',
-            'biology',
-            'physics',
-            'chemistry',
-            'further_mathematics',
-            'health_education',
-            'computer_science',
-            'technical_drawing',
-            'food_and_nutrition',
-            'agricultural_science',
-            'financial_accounting',
-            'book_keeping',
-            'commerce',
-            'data_processing',
-            'office_practice',
-            'typewriting',
-            'economics',
-            'government',
-            'literature_in_english',
-            'christian_religion_knowledge',
-            'geography',
-            'fine_art'
-        ]) }},
+        *,  -- Pull all fields from subject_grades
         {{ generate_wassce_pass_logic(
             ['english_language_pass', 'mathematics_pass'], 
             [
@@ -99,12 +45,11 @@ final_table AS (
                 'geography_pass',
                 'fine_art_pass'
             ]
-        ) }},
-        created_at,
-        updated_at
+        ) }}
     FROM subject_grades
 )
 
+-- Final ordered SELECT, visible generated fields for clarity
 SELECT
     student_id,
     name,
@@ -113,34 +58,10 @@ SELECT
     class_arm,
     grade_level,
     term,
-    -- Dynamically expand all the subject fields generated
-    {{ generate_subject_fields([
-        'english_language', 
-        'mathematics', 
-        'civic_education',
-        'biology',
-        'physics',
-        'chemistry',
-        'further_mathematics',
-        'health_education',
-        'computer_science',
-        'technical_drawing',
-        'food_and_nutrition',
-        'agricultural_science',
-        'financial_accounting',
-        'book_keeping',
-        'commerce',
-        'data_processing',
-        'office_practice',
-        'typewriting',
-        'economics',
-        'government',
-        'literature_in_english',
-        'christian_religion_knowledge',
-        'geography',
-        'fine_art'
-    ]) }},
+    {{ generate_subject_case_statements('stg_results') }},
     wassce_pass,
+    aggregate_attendance_percentage,
+    average_total_score,
     created_at,
     updated_at
 FROM final_table

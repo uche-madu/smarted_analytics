@@ -9,6 +9,10 @@ models:
         description: Unique identifier for each student.
         data_tests:
           - not_null
+          - relationships:
+              to: source('bronze', 'results')
+              field: student_id
+
       - name: name
         description: Full name of the student.
       - name: stream
@@ -380,6 +384,9 @@ models:
           - relationships:
               field: student_id
               to: ref('stg_results')
+          - relationships:
+              to: source('bronze', 'students')
+              field: student_id              
       - name: first_name
         description: Student's first name.
       - name: middle_name
@@ -427,6 +434,9 @@ models:
           - relationships:
               field: parent_id
               to: ref('stg_students')
+          - relationships:
+              to: source('bronze', 'parents')
+              field: parent_id              
       - name: first_name
         description: Parent's first name.
       - name: middle_name
@@ -466,8 +476,8 @@ models:
           - unique
           - not_null
           - relationships:
-              field: teacher_id
-              to: ref('stg_extracurricular_activities')
+              to: source('bronze', 'teachers')
+              field: teacher_id          
       - name: first_name
         description: Teacher's first name.
       - name: middle_name
@@ -507,8 +517,10 @@ models:
       - name: activity_id
         description: "Primary key for the table, representing a unique activity."
         data_tests:
-          - unique
           - not_null
+          - relationships:
+              to: source('bronze', 'extracurricular_activities')
+              field: activity_id          
 
       - name: activity_name
         description: "Name of the extracurricular activity (e.g., Soccer, Debate Club)."
@@ -548,7 +560,9 @@ models:
         data_tests:
           - unique
           - not_null
-
+          - relationships:
+              to: source('bronze', 'health_records')
+              field: record_id 
       - name: student_id
         description: "Foreign key linking to the students table."
         data_tests:

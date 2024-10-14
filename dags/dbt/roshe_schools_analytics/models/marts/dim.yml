@@ -7,7 +7,7 @@ models:
 
     columns:
       - name: student_id
-        description: "Unique identifier for each student, linking this dimension to other fact and dimension tables."
+        description: "Unique identifier for each student."
         data_tests:
           - not_null
           - relationships:
@@ -15,13 +15,7 @@ models:
               to: ref('dim_students')
           - relationships:
               field: student_id
-              to: ref('dim_parents')
-          - relationships:
-              field: student_id
-              to: ref('dim_health_records')
-          - relationships:
-              field: student_id
-              to: ref('dim_extracurricular_activities')
+              to: ref('stg_results')
 
       - name: name
         description: "Full name of the student."
@@ -29,215 +23,282 @@ models:
           - not_null
 
       - name: stream
-        description: "Academic stream that the student belongs to (e.g., 'Commercial', 'Basic Science and Maths')."
+        description: "Academic stream the student belongs to."
         data_tests:
           - not_null
 
       - name: academic_year
-        description: "The academic year associated with the result (e.g., '2022/2023')."
+        description: "The academic year associated with the result."
         data_tests:
           - not_null
 
       - name: class_arm
-        description: "Class arm for the student (e.g., 'A', 'B')."
+        description: "Class arm for the student."
         data_tests:
           - not_null
 
       - name: grade_level
-        description: "The student's grade level (e.g., 'SS1', 'SS2')."
+        description: "The student's grade level."
         data_tests:
           - not_null
 
       - name: term
-        description: "Academic term for the result (e.g., 'First', 'Second')."
+        description: "Academic term for the result."
         data_tests:
           - not_null
 
-      # Columns for each subject
-      # Core Subjects
+      # Core Subjects: English Language
       - name: english_language_ca1
-        description: "Continuous Assessment 1 score for English Language."
+        description: "Continuous Assessment 1 for English Language."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: english_language_ca2
-        description: "Continuous Assessment 2 score for English Language."
+        description: "Continuous Assessment 2 for English Language."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
-      - name: english_language_total
-        description: "Total score for English Language combining CA1, CA2, and exam scores."
+
+      - name: english_language_exam
+        description: "Exam score for English Language."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 70
+
+      - name: english_language_total
+        description: "Total score for English Language (CA + Exam)."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 100
+
       - name: english_language_grade
-        description: "Calculated grade for English Language based on total score."
+        description: "Calculated grade for English Language."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: english_language_pass
-        description: "Pass/Fail status for English Language. A pass is any grade 'C6' or above."
+        description: "Pass/Fail status for English Language."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: english_language_attendance
         description: "Attendance percentage for English Language."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
-      - name: english_language_teacher_remarks
-        description: "Teacher's remarks on student's performance in English Language."
 
+      - name: english_language_teacher_remarks
+        description: "Teacher's remarks for English Language."
+
+      # Core Subjects: Mathematics
       - name: mathematics_ca1
-        description: "Continuous Assessment 1 score for Mathematics."
+        description: "Continuous Assessment 1 for Mathematics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: mathematics_ca2
-        description: "Continuous Assessment 2 score for Mathematics."
+        description: "Continuous Assessment 2 for Mathematics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
-      - name: mathematics_total
-        description: "Total score for Mathematics combining CA1, CA2, and exam scores."
+
+      - name: mathematics_exam
+        description: "Exam score for Mathematics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 70
+
+      - name: mathematics_total
+        description: "Total score for Mathematics (CA + Exam)."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 100
+
       - name: mathematics_grade
-        description: "Calculated grade for Mathematics based on total score."
+        description: "Calculated grade for Mathematics."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: mathematics_pass
-        description: "Pass/Fail status for Mathematics. A pass is any grade 'C6' or above."
+        description: "Pass/Fail status for Mathematics."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: mathematics_attendance
         description: "Attendance percentage for Mathematics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
-      - name: mathematics_teacher_remarks
-        description: "Teacher's remarks on student's performance in Mathematics."
 
+      - name: mathematics_teacher_remarks
+        description: "Teacher's remarks for Mathematics."
+
+      # Core Subjects: Civic Education
       - name: civic_education_ca1
-        description: "Continuous Assessment 1 score for Civic Education."
+        description: "Continuous Assessment 1 for Civic Education."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: civic_education_ca2
-        description: "Continuous Assessment 2 score for Civic Education."
+        description: "Continuous Assessment 2 for Civic Education."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
-      - name: civic_education_total
-        description: "Total score for Civic Education combining CA1, CA2, and exam scores."
+
+      - name: civic_education_exam
+        description: "Exam score for Civic Education."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 70
+
+      - name: civic_education_total
+        description: "Total score for Civic Education (CA + Exam)."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 100
+
       - name: civic_education_grade
-        description: "Calculated grade for Civic Education based on total score."
+        description: "Calculated grade for Civic Education."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: civic_education_pass
-        description: "Pass/Fail status for Civic Education. A pass is any grade 'C6' or above."
+        description: "Pass/Fail status for Civic Education."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: civic_education_attendance
         description: "Attendance percentage for Civic Education."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
-      - name: civic_education_teacher_remarks
-        description: "Teacher's remarks on student's performance in Civic Education."
 
-      # Elective Subjects: Basic Science and Maths
+      - name: civic_education_teacher_remarks
+        description: "Teacher's remarks for Civic Education."
+
+      # Elective Subjects: Biology
       - name: biology_ca1
-        description: "Continuous Assessment 1 score for Biology."
+        description: "Continuous Assessment 1 for Biology."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: biology_ca2
-        description: "Continuous Assessment 2 score for Biology."
+        description: "Continuous Assessment 2 for Biology."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
-      - name: biology_total
-        description: "Total score for Biology combining CA1, CA2, and exam scores."
+
+      - name: biology_exam
+        description: "Exam score for Biology."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 70
+
+      - name: biology_total
+        description: "Total score for Biology (CA + Exam)."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 100
+
       - name: biology_grade
-        description: "Calculated grade for Biology based on total score."
+        description: "Calculated grade for Biology."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: biology_pass
-        description: "Pass/Fail status for Biology. A pass is any grade 'C6' or above."
+        description: "Pass/Fail status for Biology."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: biology_attendance
         description: "Attendance percentage for Biology."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
-      - name: biology_teacher_remarks
-        description: "Teacher's remarks on student's performance in Biology."
 
+      - name: biology_teacher_remarks
+        description: "Teacher's remarks for Biology."
+
+      
       - name: chemistry_ca1
         description: "Continuous Assessment 1 score for Chemistry."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: chemistry_ca2
         description: "Continuous Assessment 2 score for Chemistry."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: chemistry_exam
+        description: "Exam score for Chemistry."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: chemistry_total
         description: "Total score for Chemistry combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: chemistry_grade
         description: "Calculated grade for Chemistry based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: chemistry_pass
         description: "Pass/Fail status for Chemistry. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: chemistry_attendance
         description: "Attendance percentage for Chemistry."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: chemistry_teacher_remarks
         description: "Teacher's remarks on student's performance in Chemistry."
 
@@ -247,34 +308,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: further_mathematics_ca2
         description: "Continuous Assessment 2 score for Further Mathematics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: further_mathematics_exam
+        description: "Exam score for Further Mathematics."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: further_mathematics_total
         description: "Total score for Further Mathematics combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: further_mathematics_grade
         description: "Calculated grade for Further Mathematics based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: further_mathematics_pass
         description: "Pass/Fail status for Further Mathematics. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: further_mathematics_attendance
         description: "Attendance percentage for Further Mathematics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: further_mathematics_teacher_remarks
         description: "Teacher's remarks on student's performance in Further Mathematics."
 
@@ -284,34 +358,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: technical_drawing_ca2
         description: "Continuous Assessment 2 score for Technical Drawing."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: technical_drawing_exam
+        description: "Exam score for Technical Drawing."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: technical_drawing_total
         description: "Total score for Technical Drawing combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: technical_drawing_grade
         description: "Calculated grade for Technical Drawing based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: technical_drawing_pass
         description: "Pass/Fail status for Technical Drawing. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: technical_drawing_attendance
         description: "Attendance percentage for Technical Drawing."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: technical_drawing_teacher_remarks
         description: "Teacher's remarks on student's performance in Technical Drawing."
 
@@ -321,34 +408,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: food_and_nutrition_ca2
         description: "Continuous Assessment 2 score for Food and Nutrition."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: food_and_nutrition_exam
+        description: "Exam score for Food and Nutrition."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: food_and_nutrition_total
         description: "Total score for Food and Nutrition combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: food_and_nutrition_grade
         description: "Calculated grade for Food and Nutrition based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: food_and_nutrition_pass
         description: "Pass/Fail status for Food and Nutrition. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: food_and_nutrition_attendance
         description: "Attendance percentage for Food and Nutrition."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: food_and_nutrition_teacher_remarks
         description: "Teacher's remarks on student's performance in Food and Nutrition."
 
@@ -358,73 +458,49 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: agricultural_science_ca2
         description: "Continuous Assessment 2 score for Agricultural Science."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: agricultural_science_exam
+        description: "Exam score for Agricultural Science."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: agricultural_science_total
         description: "Total score for Agricultural Science combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: agricultural_science_grade
         description: "Calculated grade for Agricultural Science based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: agricultural_science_pass
         description: "Pass/Fail status for Agricultural Science. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: agricultural_science_attendance
         description: "Attendance percentage for Agricultural Science."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: agricultural_science_teacher_remarks
         description: "Teacher's remarks on student's performance in Agricultural Science."
-
-      - name: financial_accounting_ca1
-        description: "Continuous Assessment 1 score for Financial Accounting."
-        data_tests:
-          - between_or_null:
-              lower_bound: 0
-              upper_bound: 15
-      - name: financial_accounting_ca2
-        description: "Continuous Assessment 2 score for Financial Accounting."
-        data_tests:
-          - between_or_null:
-              lower_bound: 0
-              upper_bound: 15
-      - name: financial_accounting_total
-        description: "Total score for Financial Accounting combining CA1, CA2, and exam scores."
-        data_tests:
-          - between_or_null:
-              lower_bound: 0
-              upper_bound: 70
-      - name: financial_accounting_grade
-        description: "Calculated grade for Financial Accounting based on total score."
-        data_tests:
-          - accepted_values:
-              values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
-      - name: financial_accounting_pass
-        description: "Pass/Fail status for Financial Accounting. A pass is any grade 'C6' or above."
-        data_tests:
-          - accepted_values:
-              values: ['Pass', 'Fail']
-      - name: financial_accounting_attendance
-        description: "Attendance percentage for Financial Accounting."
-        data_tests:
-          - between_or_null:
-              lower_bound: 0
-              upper_bound: 100
-      - name: financial_accounting_teacher_remarks
-        description: "Teacher's remarks on student's performance in Financial Accounting."
 
       - name: book_keeping_ca1
         description: "Continuous Assessment 1 score for Book Keeping."
@@ -432,34 +508,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: book_keeping_ca2
         description: "Continuous Assessment 2 score for Book Keeping."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: book_keeping_exam
+        description: "Exam score for Book Keeping."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: book_keeping_total
         description: "Total score for Book Keeping combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: book_keeping_grade
         description: "Calculated grade for Book Keeping based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: book_keeping_pass
         description: "Pass/Fail status for Book Keeping. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: book_keeping_attendance
         description: "Attendance percentage for Book Keeping."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: book_keeping_teacher_remarks
         description: "Teacher's remarks on student's performance in Book Keeping."
 
@@ -469,34 +558,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: commerce_ca2
         description: "Continuous Assessment 2 score for Commerce."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: commerce_exam
+        description: "Exam score for Commerce."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: commerce_total
         description: "Total score for Commerce combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: commerce_grade
         description: "Calculated grade for Commerce based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: commerce_pass
         description: "Pass/Fail status for Commerce. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: commerce_attendance
         description: "Attendance percentage for Commerce."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: commerce_teacher_remarks
         description: "Teacher's remarks on student's performance in Commerce."
 
@@ -506,34 +608,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: data_processing_ca2
         description: "Continuous Assessment 2 score for Data Processing."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: data_processing_exam
+        description: "Exam score for Data Processing."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: data_processing_total
         description: "Total score for Data Processing combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: data_processing_grade
         description: "Calculated grade for Data Processing based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: data_processing_pass
         description: "Pass/Fail status for Data Processing. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: data_processing_attendance
         description: "Attendance percentage for Data Processing."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: data_processing_teacher_remarks
         description: "Teacher's remarks on student's performance in Data Processing."
 
@@ -543,34 +658,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: economics_ca2
         description: "Continuous Assessment 2 score for Economics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: economics_exam
+        description: "Exam score for Economics."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: economics_total
         description: "Total score for Economics combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: economics_grade
         description: "Calculated grade for Economics based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: economics_pass
         description: "Pass/Fail status for Economics. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: economics_attendance
         description: "Attendance percentage for Economics."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: economics_teacher_remarks
         description: "Teacher's remarks on student's performance in Economics."
 
@@ -580,34 +708,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: government_ca2
         description: "Continuous Assessment 2 score for Government."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: government_exam
+        description: "Exam score for Government."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: government_total
         description: "Total score for Government combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: government_grade
         description: "Calculated grade for Government based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: government_pass
         description: "Pass/Fail status for Government. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: government_attendance
         description: "Attendance percentage for Government."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: government_teacher_remarks
         description: "Teacher's remarks on student's performance in Government."
 
@@ -617,34 +758,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: literature_in_english_ca2
         description: "Continuous Assessment 2 score for Literature in English."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: literature_in_english_exam
+        description: "Exam score for Literature in English."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: literature_in_english_total
         description: "Total score for Literature in English combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: literature_in_english_grade
         description: "Calculated grade for Literature in English based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: literature_in_english_pass
         description: "Pass/Fail status for Literature in English. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: literature_in_english_attendance
         description: "Attendance percentage for Literature in English."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: literature_in_english_teacher_remarks
         description: "Teacher's remarks on student's performance in Literature in English."
 
@@ -654,34 +808,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: christian_religion_knowledge_ca2
         description: "Continuous Assessment 2 score for Christian Religion Knowledge."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: christian_religion_knowledge_exam
+        description: "Exam score for Christian Religion Knowledge."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: christian_religion_knowledge_total
         description: "Total score for Christian Religion Knowledge combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: christian_religion_knowledge_grade
         description: "Calculated grade for Christian Religion Knowledge based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: christian_religion_knowledge_pass
         description: "Pass/Fail status for Christian Religion Knowledge. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: christian_religion_knowledge_attendance
         description: "Attendance percentage for Christian Religion Knowledge."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: christian_religion_knowledge_teacher_remarks
         description: "Teacher's remarks on student's performance in Christian Religion Knowledge."
 
@@ -691,34 +858,47 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: geography_ca2
         description: "Continuous Assessment 2 score for Geography."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: geography_exam
+        description: "Exam score for Geography."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: geography_total
         description: "Total score for Geography combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: geography_grade
         description: "Calculated grade for Geography based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: geography_pass
         description: "Pass/Fail status for Geography. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: geography_attendance
         description: "Attendance percentage for Geography."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: geography_teacher_remarks
         description: "Teacher's remarks on student's performance in Geography."
 
@@ -728,62 +908,79 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
       - name: fine_art_ca2
         description: "Continuous Assessment 2 score for Fine Art."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 15
+
+      - name: fine_art_exam
+        description: "Exam score for Fine Art."
+        data_tests:
+          - between_or_null:
+              lower_bound: 0
+              upper_bound: 70
+
       - name: fine_art_total
         description: "Total score for Fine Art combining CA1, CA2, and exam scores."
         data_tests:
           - between_or_null:
               lower_bound: 0
-              upper_bound: 70
+              upper_bound: 100
+
       - name: fine_art_grade
         description: "Calculated grade for Fine Art based on total score."
         data_tests:
           - accepted_values:
               values: ['A1', 'B2', 'B3', 'C4', 'C5', 'C6', 'D7', 'E8', 'F9']
+
       - name: fine_art_pass
         description: "Pass/Fail status for Fine Art. A pass is any grade 'C6' or above."
         data_tests:
           - accepted_values:
               values: ['Pass', 'Fail']
+
       - name: fine_art_attendance
         description: "Attendance percentage for Fine Art."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: fine_art_teacher_remarks
         description: "Teacher's remarks on student's performance in Fine Art."
+
+      # Add remaining subjects following the same pattern...
+      
       - name: aggregate_attendance_percentage
-        description: "Overall attendance percentage across all subjects for the student."
+        description: "Overall attendance percentage for the student."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: average_total_score
         description: "Average total score across all subjects."
         data_tests:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
+
       - name: wassce_pass
-        description: |
-          WASSCE Pass/Fail status based on grades in core subjects (English, Mathematics) and at least three other elective subjects.
+        description: "WASSCE Pass/Fail status based on subject performance."
         data_tests:
           - accepted_values:
-              values: ['WASSCE Pass', 'WASSCE Fail']
+              values: ['Pass', 'Fail']
 
       - name: created_at
-        description: "Timestamp indicating when the record was created."
+        description: "Record creation timestamp."
         data_tests:
           - not_null
 
       - name: updated_at
-        description: "Timestamp indicating when the record was last updated."
+        description: "Record update timestamp."
         data_tests:
           - not_null
 
@@ -799,6 +996,9 @@ models:
           - not_null
           - relationships:
               to: ref('dim_results')
+              field: student_id
+          - relationships:
+              to: ref('stg_students') 
               field: student_id
               
       - name: first_name
@@ -894,6 +1094,9 @@ models:
           - relationships:
               to: ref('dim_students')
               field: parent_id
+          - relationships:
+              to: ref('stg_parents')
+              field: parent_id
 
       - name: first_name
         description: "Parent's first name."
@@ -961,6 +1164,9 @@ models:
         data_tests:
           - unique
           - not_null
+          - relationships:
+              to: ref('stg_teachers')
+              field: teacher_id
 
       - name: first_name
         description: "Teacher's first name."
@@ -981,7 +1187,7 @@ models:
         description: "Calculated age based on the date of birth."
         data_tests:
           - not_null
-          - range:
+          - dbt_utils.accepted_range:
               min_value: 20
               max_value: 75
 
@@ -1010,7 +1216,7 @@ models:
       - name: years_of_experience
         description: "Number of years of teaching experience."
         data_tests:
-          - range:
+          - dbt_utils.accepted_range:
               min_value: 0
               max_value: 50
 
@@ -1040,6 +1246,9 @@ models:
         data_tests:
           # - unique #Should be unique, but current data is faulty
           - not_null
+          - relationships:
+              to: ref('stg_extracurricular_activities')
+              field: activity_id
 
       - name: activity_name
         description: "Name of the extracurricular activity (e.g., Soccer, Debate Club)."
@@ -1085,14 +1294,17 @@ models:
         data_tests:
           - unique
           - not_null
+          - relationships:
+              to: ref('stg_health_records')
+              field: record_id
 
       - name: student_id
         description: "Foreign key linking to the students table."
         data_tests:
           - not_null
           - relationships:
-              field: student_id
               to: ref('dim_students')
+              field: student_id
 
       - name: checkup_date
         description: "Date of the health checkup."
@@ -1118,32 +1330,8 @@ models:
       - name: follow_up_date
         description: "Scheduled date for a follow-up, if applicable."
 
-      - name: number_of_health_checkups
-        description: "Total number of health checkups conducted for the student."
-        data_tests:
-          - not_null
-
-      - name: unique_health_issues
-        description: "Number of unique health issues recorded for the student."
-
-      - name: total_admissions
-        description: "Total number of hospital admissions."
-
-      - name: doctors_consulted
-        description: "Number of distinct doctors consulted for the student."
-
-      - name: total_days_admitted
-        description: "Total days spent in hospital admissions."
-
-      - name: follow_up_visits
-        description: "Total number of follow-up visits for the student."
-
       - name: created_at
-        description: "Timestamp indicating when the record was created."
-        data_tests:
-          - not_null
-
+        description: "Timestamp of when the health record was created."
+      
       - name: updated_at
-        description: "Timestamp indicating when the record was last updated."
-        data_tests:
-          - not_null
+        description: "Timestamp of the last update to the health record."

@@ -66,12 +66,12 @@ student_info AS (
     SELECT
         student_id,
         gender,
-        CONCAT_WS(' ', first_name, middle_name, last_name) AS student_name,
         age,
         state_of_origin,
         blood_group,
         genotype,
-        registration_year
+        registration_year,
+        CONCAT_WS(' ', first_name, middle_name, last_name) AS student_name
     FROM {{ ref('dim_students') }}
 ),
 

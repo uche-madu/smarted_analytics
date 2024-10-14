@@ -2,4 +2,4 @@ CREATE OR REPLACE FILE FORMAT csv_format_with_quotes
 TYPE = 'CSV'
 FIELD_OPTIONALLY_ENCLOSED_BY = '"'
 ESCAPE_UNENCLOSED_FIELD = '\\'
-NULL_IF = ('', 'NULL', 'None');
+NULL_IF = ('', 'NULL', 'None', 'NaN', 'nan');
