@@ -34,8 +34,10 @@ With our data warehouse, the school can now answer critical questions such as:
 These insights provide a foundation for predictive modeling and tailored interventions for each student.
 
 ## Screenshots
-Data Warehouse Overview
+![Snowflake](images/airflow_dag_screenshot.png)
+Snowflake Data Warehouse
 
+![Airflow](images/airflow_dag_screenshot.png)
 Automated Airflow DAG
 
 ## Impact and Next Steps
