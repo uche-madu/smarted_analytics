@@ -1,0 +1,271 @@
+version: 2
+
+models:
+  - name: dim_students
+    description: |
+      Dimension table for student demographics. This table includes calculated data for age, region grouping, blood group compatibility, and genotype risk categories to enrich student data and support downstream analysis.
+
+    columns:
+      - name: student_id
+        description: "Primary key for this table and foreign key to results and health records tables."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: first_name
+        description: "Student's first name."
+        data_tests:
+          - not_null
+
+      - name: middle_name
+        description: "Student's middle name, if applicable."
+
+      - name: last_name
+        description: "Student's last name."
+        data_tests:
+          - not_null
+
+      - name: gender
+        description: "Gender of the student."
+
+      - name: date_of_birth
+        description: "Date of birth of the student."
+        data_tests:
+          - not_null
+
+      - name: age
+        description: "Calculated age of the student based on the date of birth and current date."
+
+      - name: years_since_registration
+        description: "Calculated years since the student registered, based on the current date."
+
+      - name: stream
+        description: "The academic stream the student belongs to (e.g., 'Commercial', 'Basic Science and Maths')."
+        data_tests:
+          - not_null
+
+      - name: grade_level
+        description: "The student's grade level (e.g., 'SS1', 'JS2')."
+        data_tests:
+          - not_null
+
+      - name: blood_group
+        description: "Blood group of the student."
+
+      - name: blood_group_category
+        description: |
+          "Category of the student's blood group:
+           - 'Universal Donor' for O-
+           - 'Universal Recipient' for AB+
+           - 'Other' for all other blood groups."
+
+      - name: genotype
+        description: "Genotype of the student."
+
+      - name: genotype_risk_category
+        description: |
+          "Category based on genotype risk:
+           - 'High Risk' for SS
+           - 'Carrier' for AS and AC
+           - 'Normal' for AA."
+
+      - name: state_of_origin
+        description: "State of origin of the student."
+
+      - name: region
+        description: |
+          "Region based on state of origin:
+           - 'South-West' for Lagos, Ogun, Oyo, Ondo, Osun, Ekiti
+           - 'South-East' for Abia, Anambra, Ebonyi, Enugu, Imo
+           - 'South-South' for Akwa Ibom, Cross River, Bayelsa, Rivers, Delta, Edo
+           - 'North-Central' for Benue, Kogi, Kwara, Nasarawa, Niger, Plateau, FCT
+           - 'North-East' for Adamawa, Bauchi, Borno, Gombe, Taraba, Yobe
+           - 'North-West' for Kaduna, Kano, Katsina, Kebbi, Sokoto, Zamfara
+           - 'Other' for foreign students."
+
+      - name: address
+        description: "Residential address of the student."
+
+      - name: parent_id
+        description: "Foreign key linking to the parents table."
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_parents')
+              field: parent_id
+
+      - name: registration_date
+        description: "Date when the student was registered."
+        data_tests:
+          - not_null
+
+  - name: dim_parents
+    description: |
+      Dimension table for parent demographics and socio-economic insights. This table contains detailed parent information, including contact details, socio-economic data, engagement metrics, and relationship to students. Categorizations are included for education level and income bracket, providing a standardized view that enables streamlined analysis for downstream analytics and machine learning models. The table serves as a reference for linking to the `dim_students` table and tracking parent-related data across various student records.
+
+    columns:
+      - name: parent_id
+        description: "Primary key for this table and foreign key in students table."
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('dim_students')
+              field: parent_id
+
+      - name: first_name
+        description: "Parent's first name."
+        data_tests:
+          - not_null
+
+      - name: middle_name
+        description: "Parent's middle name, if applicable."
+
+      - name: last_name
+        description: "Parent's last name."
+        data_tests:
+          - not_null
+
+      - name: gender
+        description: "Gender of the parent."
+
+      - name: marital_status
+        description: "Marital status of the parent (e.g., 'Married', 'Single', 'Divorced', 'Widowed')."
+
+      - name: phone_number
+        description: "Primary contact phone number of the parent."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: email
+        description: "Primary email address of the parent."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: address
+        description: "Home address of the parent."
+
+      - name: relationship_to_student
+        description: "Parent's relationship to the student (e.g., 'Parent', 'Guardian', 'Relative')."
+        data_tests:
+          - not_null
+
+      - name: income_bracket
+        description: "Income bracket of the parent, reflecting socio-economic level in Nigerian currency."
+
+      - name: income_bracket_category
+        description: |
+          Categorized income level of the parent. This field provides a simplified view by grouping income brackets into standardized categories ('Low', 'Lower-Middle', 'Middle', 'Upper-Middle', 'High') for analytical convenience.
+
+      - name: education_level
+        description: "Highest level of education attained by the parent (e.g., 'Secondary School', 'Bachelor', 'Master', 'PhD')."
+
+      - name: education_category
+        description: |
+          Categorized education level for the parent. This grouping consolidates levels of education into standardized categories ('Basic', 'Intermediate', 'Undergraduate', 'Postgraduate') to enable streamlined analysis.
+
+      - name: occupation
+        description: "Parent's occupation or job title."
+
+      - name: employment_type
+        description: "Employment status of the parent (e.g., 'Full-Time', 'Part-Time', 'Unemployed')."
+
+      - name: industry
+        description: "Industry sector in which the parent works (e.g., 'Education', 'Healthcare', 'Finance')."
+
+      - name: engagement_level
+        description: "Level of engagement of the parent with the school, based on frequency of interactions."
+
+      - name: home_language
+        description: "Primary language spoken at home."
+
+      - name: number_of_children
+        description: "Total number of children in the household."
+
+      - name: alternate_contact_number
+        description: "Secondary contact phone number of the parent."
+
+      - name: parent_teacher_meeting_attendance
+        description: "Number of parent-teacher meetings attended by the parent."
+
+      - name: volunteer_activities_count
+        description: "Count of volunteer activities the parent has participated in."
+
+      - name: recent_interaction_date
+        description: "Timestamp of the most recent interaction between the parent and the school."
+
+
+  - name: dim_teachers
+    description: |
+      This dimension table contains enriched information about teachers, including their qualifications, years of experience, subjects taught, and involvement in extracurricular activities. It serves as a reference for understanding teacher demographics, linking to performance data, and providing insights into teacher impact on student outcomes.
+
+    columns:
+      - name: teacher_id
+        description: "Primary key for this table, linking to `fact_activities` and other related tables."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: first_name
+        description: "Teacher's first name."
+      
+      - name: middle_name
+        description: "Teacher's middle name, if applicable."
+
+      - name: last_name
+        description: "Teacher's last name."
+
+      - name: gender
+        description: "Teacher's gender."
+
+      - name: date_of_birth
+        description: "Teacher's date of birth."
+      
+      - name: age
+        description: |
+          "Calculated age based on the date of birth. Used to categorize teachers by age groups and evaluate potential generational trends in teaching outcomes."
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 20
+              max_value: 75
+
+      - name: phone_number
+        description: "Contact phone number of the teacher."
+        data_tests:
+          - unique
+
+      - name: email
+        description: "Email address of the teacher."
+        data_tests:
+          - unique
+
+      - name: address
+        description: "Residential address of the teacher."
+
+      - name: hire_date
+        description: "Date the teacher was hired, used for tenure calculations."
+
+      - name: subject
+        description: "Subject taught by the teacher."
+
+      - name: qualification
+        description: "Teacher's highest qualification (e.g., B.Ed., M.Sc.)."
+      
+      - name: years_of_experience
+        description: "Number of years of teaching experience."
+        data_tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 50
+
+      - name: qualification_category
+        description: |
+          "Categorizes teacher qualifications into three main levels (Advanced, Undergraduate, Basic).
+           This pre-categorization enables downstream analytics to analyze outcomes based on teacher qualifications."
+        data_tests:
+          - not_null
+
+

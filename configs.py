@@ -28,14 +28,4 @@ SHEET_CONFIG = {
         "output_file": "teachers.csv",
         "url": os.getenv("GOOGLE_SHEET_URL_TEACHERS")
     },
-    "extracurricular": {
-        "required_columns": {"Activity ID", "Student ID"},
-        "output_file": "activities.csv",
-        "url": os.getenv("GOOGLE_SHEET_URL_ACTIVITIES")
-    },
-    "health": {
-        "required_columns": {"Record ID"},
-        "output_file": "health_records.csv",
-        "url": os.getenv("GOOGLE_SHEET_URL_HEALTH")
-    },
 }

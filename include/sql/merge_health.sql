@@ -13,7 +13,7 @@ WHEN MATCHED THEN
        target.discharge_date = source.$8,
        target.doctor = source.$9,
        target.follow_up_date = source.$10,
-       target.updated_at = CURRENT_TIMESTAMP  -- Updates timestamp for modifications
+       target.updated_at = source.$12
 WHEN NOT MATCHED THEN
    INSERT (record_id, student_id, checkup_date, health_issues, treatment, admitted, admission_date, discharge_date, doctor, follow_up_date, created_at, updated_at)
-   VALUES (source.$1, source.$2, source.$3, source.$4, source.$5, source.$6, source.$7, source.$8, source.$9, source.$10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);  -- Sets created_at and updated_at for new records
+   VALUES (source.$1, source.$2, source.$3, source.$4, source.$5, source.$6, source.$7, source.$8, source.$9, source.$10, source.$11, source.$12); 

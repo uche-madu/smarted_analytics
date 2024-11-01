@@ -1,0 +1,844 @@
+version: 2
+
+models:
+  - name: student_performance_summary
+    description: >
+      This table provides a comprehensive summary of student performance with data organized per student, term, 
+      and academic year. Each row represents a unique student’s performance across multiple subjects for a given 
+      term within a specific academic year. The table includes student demographics, subject-specific scores, 
+      attendance records, teacher qualifications, and socio-economic and engagement details for parents. This 
+      structure allows for detailed longitudinal analyses of student progress and performance trends over time, 
+      supporting use cases such as term-by-term comparison, year-over-year academic growth tracking, teacher impact 
+      evaluation on student outcomes, and correlation analyses between parent engagement and student performance.
+
+    columns:
+      - name: student_id
+        description: "Unique identifier for each student."
+
+      - name: academic_year
+        description: "Academic year for which the record applies."
+
+      - name: term
+        description: "Term within the academic year (e.g., Term 1, Term 2)."
+
+      - name: grade_level
+        description: "Student's grade level during the term."
+
+      - name: first_name
+        description: "First name of the student."
+
+      - name: middle_name
+        description: "Middle name of the student."
+
+      - name: last_name
+        description: "Last name of the student."
+
+      - name: gender
+        description: "Gender of the student."
+
+      - name: age
+        description: "Age of the student."
+
+      - name: years_since_registration
+        description: "Number of years since the student’s registration."
+
+      - name: stream
+        description: "Academic stream assigned to the student."
+
+      - name: current_grade_level
+        description: "Current grade level for the student in the academic year."
+
+      - name: region
+        description: "Region of residence for the student."
+
+      - name: genotype_risk_category
+        description: "Genotype risk classification for the student."
+
+      - name: blood_group_category
+        description: "Blood group category for the student."
+
+      - name: parent_id
+        description: "Unique identifier for each parent associated with the student."
+
+      - name: parent_income_bracket_category
+        description: "Income bracket category of the parent."
+
+      - name: parent_education_category
+        description: "Education level category of the parent."
+
+      - name: parent_occupation
+        description: "Occupation of the parent."
+
+      - name: parent_engagement_level
+        description: "Engagement level of the parent with the school."
+
+      - name: parent_teacher_meeting_attendance
+        description: "Number of parent-teacher meetings attended by the parent."
+
+      - name: parent_volunteer_activities_count
+        description: "Number of volunteer activities participated in by the parent."
+
+      - name: parent_recent_interaction_date
+        description: "Date of the most recent interaction between the parent and the school."
+
+      - name: home_language
+        description: "Primary language spoken at home by the family."
+
+      - name: parent_number_of_children
+        description: "Number of children in the household."
+
+      - name: parent_marital_status
+        description: "Marital status of the parent."
+
+      # Subject-specific columns start here (e.g., English Language, Mathematics, Civic Education)
+
+      - name: english_language_ca1
+        description: "Continuous Assessment 1 score in English Language."
+
+      - name: english_language_ca2
+        description: "Continuous Assessment 2 score in English Language."
+
+      - name: english_language_exam
+        description: "Exam score in English Language."
+
+      - name: english_language_total
+        description: "Total score in English Language."
+
+      - name: english_language_grade
+        description: "Grade in English Language based on the total score."
+
+      - name: english_language_pass
+        description: "Pass/Fail status in English Language."
+
+      - name: english_language_attendance
+        description: "Attendance record in English Language class."
+
+      - name: english_language_teacher_id
+        description: "ID of the teacher for English Language."
+
+      - name: english_language_teacher_remarks
+        description: "Remarks provided by the English Language teacher."
+
+      - name: english_language_teacher_qualification
+        description: "Qualification of the English Language teacher."
+
+      - name: english_language_teacher_age
+        description: "Age of the English Language teacher."
+
+      - name: english_language_teacher_gender
+        description: "Gender of the English Language teacher."
+
+      - name: english_language_teacher_years_of_experience
+        description: "Years of teaching experience for the English Language teacher."
+
+      - name: english_language_teacher_qualification_category
+        description: "Qualification category of the English Language teacher."
+
+      # Mathematics Columns
+      - name: mathematics_ca1
+        description: "Continuous Assessment 1 score in Mathematics."
+      - name: mathematics_ca2
+        description: "Continuous Assessment 2 score in Mathematics."
+      - name: mathematics_exam
+        description: "Exam score in Mathematics."
+      - name: mathematics_total
+        description: "Total score in Mathematics."
+      - name: mathematics_grade
+        description: "Grade in Mathematics based on the total score."
+      - name: mathematics_pass
+        description: "Pass/Fail status in Mathematics."
+      - name: mathematics_attendance
+        description: "Attendance record in Mathematics class."
+      - name: mathematics_teacher_id
+        description: "ID of the teacher for Mathematics."
+      - name: mathematics_teacher_remarks
+        description: "Remarks provided by the Mathematics teacher."
+      - name: mathematics_teacher_qualification
+        description: "Qualification of the Mathematics teacher."
+      - name: mathematics_teacher_age
+        description: "Age of the Mathematics teacher."
+      - name: mathematics_teacher_gender
+        description: "Gender of the Mathematics teacher."
+      - name: mathematics_teacher_years_of_experience
+        description: "Years of teaching experience for the Mathematics teacher."
+      - name: mathematics_teacher_qualification_category
+        description: "Qualification category of the Mathematics teacher."
+
+      # Civic Education Columns
+      - name: civic_education_ca1
+        description: "Continuous Assessment 1 score in Civic Education."
+      - name: civic_education_ca2
+        description: "Continuous Assessment 2 score in Civic Education."
+      - name: civic_education_exam
+        description: "Exam score in Civic Education."
+      - name: civic_education_total
+        description: "Total score in Civic Education."
+      - name: civic_education_grade
+        description: "Grade in Civic Education based on the total score."
+      - name: civic_education_pass
+        description: "Pass/Fail status in Civic Education."
+      - name: civic_education_attendance
+        description: "Attendance record in Civic Education class."
+      - name: civic_education_teacher_id
+        description: "ID of the teacher for Civic Education."
+      - name: civic_education_teacher_remarks
+        description: "Remarks provided by the Civic Education teacher."
+      - name: civic_education_teacher_qualification
+        description: "Qualification of the Civic Education teacher."
+      - name: civic_education_teacher_age
+        description: "Age of the Civic Education teacher."
+      - name: civic_education_teacher_gender
+        description: "Gender of the Civic Education teacher."
+      - name: civic_education_teacher_years_of_experience
+        description: "Years of teaching experience for the Civic Education teacher."
+      - name: civic_education_teacher_qualification_category
+        description: "Qualification category of the Civic Education teacher."
+
+      - name: biology_ca1
+        description: "First continuous assessment score for Biology."
+      - name: biology_ca2
+        description: "Second continuous assessment score for Biology."
+      - name: biology_exam
+        description: "Exam score for Biology."
+      - name: biology_total
+        description: "Total score for Biology, calculated as the sum of CA1, CA2, and exam scores."
+      - name: biology_grade
+        description: "Grade awarded for Biology, based on the total score."
+      - name: biology_pass
+        description: "Indicates whether the student passed Biology, based on school pass criteria."
+      - name: biology_attendance
+        description: "Student's attendance percentage for Biology classes."
+      - name: biology_teacher_id
+        description: "Unique identifier for the Biology teacher associated with the student's class."
+      - name: biology_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Biology."
+      - name: biology_teacher_qualification
+        description: "Qualification level of the Biology teacher."
+      - name: biology_teacher_age
+        description: "Age of the Biology teacher."
+      - name: biology_teacher_gender
+        description: "Gender of the Biology teacher."
+      - name: biology_teacher_years_of_experience
+        description: "Years of experience of the Biology teacher."
+      - name: biology_teacher_qualification_category
+        description: "Qualification category of the Biology teacher."
+
+      - name: physics_ca1
+        description: "First continuous assessment score for Physics."
+      - name: physics_ca2
+        description: "Second continuous assessment score for Physics."
+      - name: physics_exam
+        description: "Exam score for Physics."
+      - name: physics_total
+        description: "Total score for Physics, calculated as the sum of CA1, CA2, and exam scores."
+      - name: physics_grade
+        description: "Grade awarded for Physics, based on the total score."
+      - name: physics_pass
+        description: "Indicates whether the student passed Physics, based on school pass criteria."
+      - name: physics_attendance
+        description: "Student's attendance percentage for Physics classes."
+      - name: physics_teacher_id
+        description: "Unique identifier for the Physics teacher associated with the student's class."
+      - name: physics_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Physics."
+      - name: physics_teacher_qualification
+        description: "Qualification level of the Physics teacher."
+      - name: physics_teacher_age
+        description: "Age of the Physics teacher."
+      - name: physics_teacher_gender
+        description: "Gender of the Physics teacher."
+      - name: physics_teacher_years_of_experience
+        description: "Years of experience of the Physics teacher."
+      - name: physics_teacher_qualification_category
+        description: "Qualification category of the Physics teacher."
+
+      - name: chemistry_ca1
+        description: "First continuous assessment score for Chemistry."
+      - name: chemistry_ca2
+        description: "Second continuous assessment score for Chemistry."
+      - name: chemistry_exam
+        description: "Exam score for Chemistry."
+      - name: chemistry_total
+        description: "Total score for Chemistry, calculated as the sum of CA1, CA2, and exam scores."
+      - name: chemistry_grade
+        description: "Grade awarded for Chemistry, based on the total score."
+      - name: chemistry_pass
+        description: "Indicates whether the student passed Chemistry, based on school pass criteria."
+      - name: chemistry_attendance
+        description: "Student's attendance percentage for Chemistry classes."
+      - name: chemistry_teacher_id
+        description: "Unique identifier for the Chemistry teacher associated with the student's class."
+      - name: chemistry_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Chemistry."
+      - name: chemistry_teacher_qualification
+        description: "Qualification level of the Chemistry teacher."
+      - name: chemistry_teacher_age
+        description: "Age of the Chemistry teacher."
+      - name: chemistry_teacher_gender
+        description: "Gender of the Chemistry teacher."
+      - name: chemistry_teacher_years_of_experience
+        description: "Years of experience of the Chemistry teacher."
+      - name: chemistry_teacher_qualification_category
+        description: "Qualification category of the Chemistry teacher."
+
+      - name: further_mathematics_ca1
+        description: "First continuous assessment score for Further Mathematics."
+      - name: further_mathematics_ca2
+        description: "Second continuous assessment score for Further Mathematics."
+      - name: further_mathematics_exam
+        description: "Exam score for Further Mathematics."
+      - name: further_mathematics_total
+        description: "Total score for Further Mathematics, calculated as the sum of CA1, CA2, and exam scores."
+      - name: further_mathematics_grade
+        description: "Grade awarded for Further Mathematics, based on the total score."
+      - name: further_mathematics_pass
+        description: "Indicates whether the student passed Further Mathematics, based on school pass criteria."
+      - name: further_mathematics_attendance
+        description: "Student's attendance percentage for Further Mathematics classes."
+      - name: further_mathematics_teacher_id
+        description: "Unique identifier for the Further Mathematics teacher associated with the student's class."
+      - name: further_mathematics_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Further Mathematics."
+      - name: further_mathematics_teacher_qualification
+        description: "Qualification level of the Further Mathematics teacher."
+      - name: further_mathematics_teacher_age
+        description: "Age of the Further Mathematics teacher."
+      - name: further_mathematics_teacher_gender
+        description: "Gender of the Further Mathematics teacher."
+      - name: further_mathematics_teacher_years_of_experience
+        description: "Years of experience of the Further Mathematics teacher."
+      - name: further_mathematics_teacher_qualification_category
+        description: "Qualification category of the Further Mathematics teacher."
+
+      - name: health_education_ca1
+        description: "First continuous assessment score for Health Education."
+      - name: health_education_ca2
+        description: "Second continuous assessment score for Health Education."
+      - name: health_education_exam
+        description: "Exam score for Health Education."
+      - name: health_education_total
+        description: "Total score for Health Education, calculated as the sum of CA1, CA2, and exam scores."
+      - name: health_education_grade
+        description: "Grade awarded for Health Education, based on the total score."
+      - name: health_education_pass
+        description: "Indicates whether the student passed Health Education, based on school pass criteria."
+      - name: health_education_attendance
+        description: "Student's attendance percentage for Health Education classes."
+      - name: health_education_teacher_id
+        description: "Unique identifier for the Health Education teacher associated with the student's class."
+      - name: health_education_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Health Education."
+      - name: health_education_teacher_qualification
+        description: "Qualification level of the Health Education teacher."
+      - name: health_education_teacher_age
+        description: "Age of the Health Education teacher."
+      - name: health_education_teacher_gender
+        description: "Gender of the Health Education teacher."
+      - name: health_education_teacher_years_of_experience
+        description: "Years of experience of the Health Education teacher."
+      - name: health_education_teacher_qualification_category
+        description: "Qualification category of the Health Education teacher."
+
+      - name: computer_science_ca1
+        description: "First continuous assessment score for Computer Science."
+      - name: computer_science_ca2
+        description: "Second continuous assessment score for Computer Science."
+      - name: computer_science_exam
+        description: "Exam score for Computer Science."
+      - name: computer_science_total
+        description: "Total score for Computer Science, calculated as the sum of CA1, CA2, and exam scores."
+      - name: computer_science_grade
+        description: "Grade awarded for Computer Science, based on the total score."
+      - name: computer_science_pass
+        description: "Indicates whether the student passed Computer Science, based on school pass criteria."
+      - name: computer_science_attendance
+        description: "Student's attendance percentage for Computer Science classes."
+      - name: computer_science_teacher_id
+        description: "Unique identifier for the Computer Science teacher associated with the student's class."
+      - name: computer_science_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Computer Science."
+      - name: computer_science_teacher_qualification
+        description: "Qualification level of the Computer Science teacher."
+      - name: computer_science_teacher_age
+        description: "Age of the Computer Science teacher."
+      - name: computer_science_teacher_gender
+        description: "Gender of the Computer Science teacher."
+      - name: computer_science_teacher_years_of_experience
+        description: "Years of experience of the Computer Science teacher."
+      - name: computer_science_teacher_qualification_category
+        description: "Qualification category of the Computer Science teacher."
+
+      - name: technical_drawing_ca1
+        description: "First continuous assessment score for Technical Drawing."
+      - name: technical_drawing_ca2
+        description: "Second continuous assessment score for Technical Drawing."
+      - name: technical_drawing_exam
+        description: "Exam score for Technical Drawing."
+      - name: technical_drawing_total
+        description: "Total score for Technical Drawing, calculated as the sum of CA1, CA2, and exam scores."
+      - name: technical_drawing_grade
+        description: "Grade awarded for Technical Drawing, based on the total score."
+      - name: technical_drawing_pass
+        description: "Indicates whether the student passed Technical Drawing, based on school pass criteria."
+      - name: technical_drawing_attendance
+        description: "Student's attendance percentage for Technical Drawing classes."
+      - name: technical_drawing_teacher_id
+        description: "Unique identifier for the Technical Drawing teacher associated with the student's class."
+      - name: technical_drawing_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Technical Drawing."
+      - name: technical_drawing_teacher_qualification
+        description: "Qualification level of the Technical Drawing teacher."
+      - name: technical_drawing_teacher_age
+        description: "Age of the Technical Drawing teacher."
+      - name: technical_drawing_teacher_gender
+        description: "Gender of the Technical Drawing teacher."
+      - name: technical_drawing_teacher_years_of_experience
+        description: "Years of experience of the Technical Drawing teacher."
+      - name: technical_drawing_teacher_qualification_category
+        description: "Qualification category of the Technical Drawing teacher."
+
+      - name: food_and_nutrition_ca1
+        description: "First continuous assessment score for Food and Nutrition."
+      - name: food_and_nutrition_ca2
+        description: "Second continuous assessment score for Food and Nutrition."
+      - name: food_and_nutrition_exam
+        description: "Exam score for Food and Nutrition."
+      - name: food_and_nutrition_total
+        description: "Total score for Food and Nutrition, calculated as the sum of CA1, CA2, and exam scores."
+      - name: food_and_nutrition_grade
+        description: "Grade awarded for Food and Nutrition, based on the total score."
+      - name: food_and_nutrition_pass
+        description: "Indicates whether the student passed Food and Nutrition, based on school pass criteria."
+      - name: food_and_nutrition_attendance
+        description: "Student's attendance percentage for Food and Nutrition classes."
+      - name: food_and_nutrition_teacher_id
+        description: "Unique identifier for the Food and Nutrition teacher associated with the student's class."
+      - name: food_and_nutrition_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Food and Nutrition."
+      - name: food_and_nutrition_teacher_qualification
+        description: "Qualification level of the Food and Nutrition teacher."
+      - name: food_and_nutrition_teacher_age
+        description: "Age of the Food and Nutrition teacher."
+      - name: food_and_nutrition_teacher_gender
+        description: "Gender of the Food and Nutrition teacher."
+      - name: food_and_nutrition_teacher_years_of_experience
+        description: "Years of experience of the Food and Nutrition teacher."
+      - name: food_and_nutrition_teacher_qualification_category
+        description: "Qualification category of the Food and Nutrition teacher."
+
+      - name: agricultural_science_ca1
+        description: "First continuous assessment score for Agricultural Science."
+      - name: agricultural_science_ca2
+        description: "Second continuous assessment score for Agricultural Science."
+      - name: agricultural_science_exam
+        description: "Exam score for Agricultural Science."
+      - name: agricultural_science_total
+        description: "Total score for Agricultural Science, calculated as the sum of CA1, CA2, and exam scores."
+      - name: agricultural_science_grade
+        description: "Grade awarded for Agricultural Science, based on the total score."
+      - name: agricultural_science_pass
+        description: "Indicates whether the student passed Agricultural Science, based on school pass criteria."
+      - name: agricultural_science_attendance
+        description: "Student's attendance percentage for Agricultural Science classes."
+      - name: agricultural_science_teacher_id
+        description: "Unique identifier for the Agricultural Science teacher associated with the student's class."
+      - name: agricultural_science_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Agricultural Science."
+      - name: agricultural_science_teacher_qualification
+        description: "Qualification level of the Agricultural Science teacher."
+      - name: agricultural_science_teacher_age
+        description: "Age of the Agricultural Science teacher."
+      - name: agricultural_science_teacher_gender
+        description: "Gender of the Agricultural Science teacher."
+      - name: agricultural_science_teacher_years_of_experience
+        description: "Years of experience of the Agricultural Science teacher."
+      - name: agricultural_science_teacher_qualification_category
+        description: "Qualification category of the Agricultural Science teacher."
+
+      - name: financial_accounting_ca1
+        description: "First continuous assessment score for Financial Accounting."
+      - name: financial_accounting_ca2
+        description: "Second continuous assessment score for Financial Accounting."
+      - name: financial_accounting_exam
+        description: "Exam score for Financial Accounting."
+      - name: financial_accounting_total
+        description: "Total score for Financial Accounting, calculated as the sum of CA1, CA2, and exam scores."
+      - name: financial_accounting_grade
+        description: "Grade awarded for Financial Accounting, based on the total score."
+      - name: financial_accounting_pass
+        description: "Indicates whether the student passed Financial Accounting, based on school pass criteria."
+      - name: financial_accounting_attendance
+        description: "Student's attendance percentage for Financial Accounting classes."
+      - name: financial_accounting_teacher_id
+        description: "Unique identifier for the Financial Accounting teacher associated with the student's class."
+      - name: financial_accounting_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Financial Accounting."
+      - name: financial_accounting_teacher_qualification
+        description: "Qualification level of the Financial Accounting teacher."
+      - name: financial_accounting_teacher_age
+        description: "Age of the Financial Accounting teacher."
+      - name: financial_accounting_teacher_gender
+        description: "Gender of the Financial Accounting teacher."
+      - name: financial_accounting_teacher_years_of_experience
+        description: "Years of experience of the Financial Accounting teacher."
+      - name: financial_accounting_teacher_qualification_category
+        description: "Qualification category of the Financial Accounting teacher."
+
+      - name: book_keeping_ca1
+        description: "First continuous assessment score for Book Keeping."
+      - name: book_keeping_ca2
+        description: "Second continuous assessment score for Book Keeping."
+      - name: book_keeping_exam
+        description: "Exam score for Book Keeping."
+      - name: book_keeping_total
+        description: "Total score for Book Keeping, calculated as the sum of CA1, CA2, and exam scores."
+      - name: book_keeping_grade
+        description: "Grade awarded for Book Keeping, based on the total score."
+      - name: book_keeping_pass
+        description: "Indicates whether the student passed Book Keeping, based on school pass criteria."
+      - name: book_keeping_attendance
+        description: "Student's attendance percentage for Book Keeping classes."
+      - name: book_keeping_teacher_id
+        description: "Unique identifier for the Book Keeping teacher associated with the student's class."
+      - name: book_keeping_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Book Keeping."
+      - name: book_keeping_teacher_qualification
+        description: "Qualification level of the Book Keeping teacher."
+      - name: book_keeping_teacher_age
+        description: "Age of the Book Keeping teacher."
+      - name: book_keeping_teacher_gender
+        description: "Gender of the Book Keeping teacher."
+      - name: book_keeping_teacher_years_of_experience
+        description: "Years of experience of the Book Keeping teacher."
+      - name: book_keeping_teacher_qualification_category
+        description: "Qualification category of the Book Keeping teacher."
+
+      - name: commerce_ca1
+        description: "First continuous assessment score for Commerce."
+      - name: commerce_ca2
+        description: "Second continuous assessment score for Commerce."
+      - name: commerce_exam
+        description: "Exam score for Commerce."
+      - name: commerce_total
+        description: "Total score for Commerce, calculated as the sum of CA1, CA2, and exam scores."
+      - name: commerce_grade
+        description: "Grade awarded for Commerce, based on the total score."
+      - name: commerce_pass
+        description: "Indicates whether the student passed Commerce, based on school pass criteria."
+      - name: commerce_attendance
+        description: "Student's attendance percentage for Commerce classes."
+      - name: commerce_teacher_id
+        description: "Unique identifier for the Commerce teacher associated with the student's class."
+      - name: commerce_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Commerce."
+      - name: commerce_teacher_qualification
+        description: "Qualification level of the Commerce teacher."
+      - name: commerce_teacher_age
+        description: "Age of the Commerce teacher."
+      - name: commerce_teacher_gender
+        description: "Gender of the Commerce teacher."
+      - name: commerce_teacher_years_of_experience
+        description: "Years of experience of the Commerce teacher."
+      - name: commerce_teacher_qualification_category
+        description: "Qualification category of the Commerce teacher."
+
+      - name: data_processing_ca1
+        description: "First continuous assessment score for Data Processing."
+      - name: data_processing_ca2
+        description: "Second continuous assessment score for Data Processing."
+      - name: data_processing_exam
+        description: "Exam score for Data Processing."
+      - name: data_processing_total
+        description: "Total score for Data Processing, calculated as the sum of CA1, CA2, and exam scores."
+      - name: data_processing_grade
+        description: "Grade awarded for Data Processing, based on the total score."
+      - name: data_processing_pass
+        description: "Indicates whether the student passed Data Processing, based on school pass criteria."
+      - name: data_processing_attendance
+        description: "Student's attendance percentage for Data Processing classes."
+      - name: data_processing_teacher_id
+        description: "Unique identifier for the Data Processing teacher associated with the student's class."
+      - name: data_processing_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Data Processing."
+      - name: data_processing_teacher_qualification
+        description: "Qualification level of the Data Processing teacher."
+      - name: data_processing_teacher_age
+        description: "Age of the Data Processing teacher."
+      - name: data_processing_teacher_gender
+        description: "Gender of the Data Processing teacher."
+      - name: data_processing_teacher_years_of_experience
+        description: "Years of experience of the Data Processing teacher."
+      - name: data_processing_teacher_qualification_category
+        description: "Qualification category of the Data Processing teacher."
+
+      - name: office_practice_ca1
+        description: "First continuous assessment score for Office Practice."
+      - name: office_practice_ca2
+        description: "Second continuous assessment score for Office Practice."
+      - name: office_practice_exam
+        description: "Exam score for Office Practice."
+      - name: office_practice_total
+        description: "Total score for Office Practice, calculated as the sum of CA1, CA2, and exam scores."
+      - name: office_practice_grade
+        description: "Grade awarded for Office Practice, based on the total score."
+      - name: office_practice_pass
+        description: "Indicates whether the student passed Office Practice, based on school pass criteria."
+      - name: office_practice_attendance
+        description: "Student's attendance percentage for Office Practice classes."
+      - name: office_practice_teacher_id
+        description: "Unique identifier for the Office Practice teacher associated with the student's class."
+      - name: office_practice_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Office Practice."
+      - name: office_practice_teacher_qualification
+        description: "Qualification level of the Office Practice teacher."
+      - name: office_practice_teacher_age
+        description: "Age of the Office Practice teacher."
+      - name: office_practice_teacher_gender
+        description: "Gender of the Office Practice teacher."
+      - name: office_practice_teacher_years_of_experience
+        description: "Years of experience of the Office Practice teacher."
+      - name: office_practice_teacher_qualification_category
+        description: "Qualification category of the Office Practice teacher."
+
+      - name: typewriting_ca1
+        description: "First continuous assessment score for Typewriting."
+      - name: typewriting_ca2
+        description: "Second continuous assessment score for Typewriting."
+      - name: typewriting_exam
+        description: "Exam score for Typewriting."
+      - name: typewriting_total
+        description: "Total score for Typewriting, calculated as the sum of CA1, CA2, and exam scores."
+      - name: typewriting_grade
+        description: "Grade awarded for Typewriting, based on the total score."
+      - name: typewriting_pass
+        description: "Indicates whether the student passed Typewriting, based on school pass criteria."
+      - name: typewriting_attendance
+        description: "Student's attendance percentage for Typewriting classes."
+      - name: typewriting_teacher_id
+        description: "Unique identifier for the Typewriting teacher associated with the student's class."
+      - name: typewriting_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Typewriting."
+      - name: typewriting_teacher_qualification
+        description: "Qualification level of the Typewriting teacher."
+      - name: typewriting_teacher_age
+        description: "Age of the Typewriting teacher."
+      - name: typewriting_teacher_gender
+        description: "Gender of the Typewriting teacher."
+      - name: typewriting_teacher_years_of_experience
+        description: "Years of experience of the Typewriting teacher."
+      - name: typewriting_teacher_qualification_category
+        description: "Qualification category of the Typewriting teacher."
+
+      - name: economics_ca1
+        description: "First continuous assessment score for Economics."
+      - name: economics_ca2
+        description: "Second continuous assessment score for Economics."
+      - name: economics_exam
+        description: "Exam score for Economics."
+      - name: economics_total
+        description: "Total score for Economics, calculated as the sum of CA1, CA2, and exam scores."
+      - name: economics_grade
+        description: "Grade awarded for Economics, based on the total score."
+      - name: economics_pass
+        description: "Indicates whether the student passed Economics, based on school pass criteria."
+      - name: economics_attendance
+        description: "Student's attendance percentage for Economics classes."
+      - name: economics_teacher_id
+        description: "Unique identifier for the Economics teacher associated with the student's class."
+      - name: economics_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Economics."
+      - name: economics_teacher_qualification
+        description: "Qualification level of the Economics teacher."
+      - name: economics_teacher_age
+        description: "Age of the Economics teacher."
+      - name: economics_teacher_gender
+        description: "Gender of the Economics teacher."
+      - name: economics_teacher_years_of_experience
+        description: "Years of experience of the Economics teacher."
+      - name: economics_teacher_qualification_category
+        description: "Qualification category of the Economics teacher."
+
+      - name: government_ca1
+        description: "First continuous assessment score for Government."
+      - name: government_ca2
+        description: "Second continuous assessment score for Government."
+      - name: government_exam
+        description: "Exam score for Government."
+      - name: government_total
+        description: "Total score for Government, calculated as the sum of CA1, CA2, and exam scores."
+      - name: government_grade
+        description: "Grade awarded for Government, based on the total score."
+      - name: government_pass
+        description: "Indicates whether the student passed Government, based on school pass criteria."
+      - name: government_attendance
+        description: "Student's attendance percentage for Government classes."
+      - name: government_teacher_id
+        description: "Unique identifier for the Government teacher associated with the student's class."
+      - name: government_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Government."
+      - name: government_teacher_qualification
+        description: "Qualification level of the Government teacher."
+      - name: government_teacher_age
+        description: "Age of the Government teacher."
+      - name: government_teacher_gender
+        description: "Gender of the Government teacher."
+      - name: government_teacher_years_of_experience
+        description: "Years of experience of the Government teacher."
+      - name: government_teacher_qualification_category
+        description: "Qualification category of the Government teacher."
+
+      - name: literature_in_english_ca1
+        description: "First continuous assessment score for Literature in English."
+      - name: literature_in_english_ca2
+        description: "Second continuous assessment score for Literature in English."
+      - name: literature_in_english_exam
+        description: "Exam score for Literature in English."
+      - name: literature_in_english_total
+        description: "Total score for Literature in English, calculated as the sum of CA1, CA2, and exam scores."
+      - name: literature_in_english_grade
+        description: "Grade awarded for Literature in English, based on the total score."
+      - name: literature_in_english_pass
+        description: "Indicates whether the student passed Literature in English, based on school pass criteria."
+      - name: literature_in_english_attendance
+        description: "Student's attendance percentage for Literature in English classes."
+      - name: literature_in_english_teacher_id
+        description: "Unique identifier for the Literature in English teacher associated with the student's class."
+      - name: literature_in_english_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Literature in English."
+      - name: literature_in_english_teacher_qualification
+        description: "Qualification level of the Literature in English teacher."
+      - name: literature_in_english_teacher_age
+        description: "Age of the Literature in English teacher."
+      - name: literature_in_english_teacher_gender
+        description: "Gender of the Literature in English teacher."
+      - name: literature_in_english_teacher_years_of_experience
+        description: "Years of experience of the Literature in English teacher."
+      - name: literature_in_english_teacher_qualification_category
+        description: "Qualification category of the Literature in English teacher."
+
+      - name: christian_religion_knowledge_ca1
+        description: "First continuous assessment score for Christian Religion Knowledge."
+      - name: christian_religion_knowledge_ca2
+        description: "Second continuous assessment score for Christian Religion Knowledge."
+      - name: christian_religion_knowledge_exam
+        description: "Exam score for Christian Religion Knowledge."
+      - name: christian_religion_knowledge_total
+        description: "Total score for Christian Religion Knowledge, calculated as the sum of CA1, CA2, and exam scores."
+      - name: christian_religion_knowledge_grade
+        description: "Grade awarded for Christian Religion Knowledge, based on the total score."
+      - name: christian_religion_knowledge_pass
+        description: "Indicates whether the student passed Christian Religion Knowledge, based on school pass criteria."
+      - name: christian_religion_knowledge_attendance
+        description: "Student's attendance percentage for Christian Religion Knowledge classes."
+      - name: christian_religion_knowledge_teacher_id
+        description: "Unique identifier for the Christian Religion Knowledge teacher associated with the student's class."
+      - name: christian_religion_knowledge_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Christian Religion Knowledge."
+      - name: christian_religion_knowledge_teacher_qualification
+        description: "Qualification level of the Christian Religion Knowledge teacher."
+      - name: christian_religion_knowledge_teacher_age
+        description: "Age of the Christian Religion Knowledge teacher."
+      - name: christian_religion_knowledge_teacher_gender
+        description: "Gender of the Christian Religion Knowledge teacher."
+      - name: christian_religion_knowledge_teacher_years_of_experience
+        description: "Years of experience of the Christian Religion Knowledge teacher."
+      - name: christian_religion_knowledge_teacher_qualification_category
+        description: "Qualification category of the Christian Religion Knowledge teacher."
+
+      - name: geography_ca1
+        description: "First continuous assessment score for Geography."
+      - name: geography_ca2
+        description: "Second continuous assessment score for Geography."
+      - name: geography_exam
+        description: "Exam score for Geography."
+      - name: geography_total
+        description: "Total score for Geography, calculated as the sum of CA1, CA2, and exam scores."
+      - name: geography_grade
+        description: "Grade awarded for Geography, based on the total score."
+      - name: geography_pass
+        description: "Indicates whether the student passed Geography, based on school pass criteria."
+      - name: geography_attendance
+        description: "Student's attendance percentage for Geography classes."
+      - name: geography_teacher_id
+        description: "Unique identifier for the Geography teacher associated with the student's class."
+      - name: geography_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Geography."
+      - name: geography_teacher_qualification
+        description: "Qualification level of the Geography teacher."
+      - name: geography_teacher_age
+        description: "Age of the Geography teacher."
+      - name: geography_teacher_gender
+        description: "Gender of the Geography teacher."
+      - name: geography_teacher_years_of_experience
+        description: "Years of experience of the Geography teacher."
+      - name: geography_teacher_qualification_category
+        description: "Qualification category of the Geography teacher."
+
+      - name: fine_art_ca1
+        description: "First continuous assessment score for Fine Art."
+      - name: fine_art_ca2
+        description: "Second continuous assessment score for Fine Art."
+      - name: fine_art_exam
+        description: "Exam score for Fine Art."
+      - name: fine_art_total
+        description: "Total score for Fine Art, calculated as the sum of CA1, CA2, and exam scores."
+      - name: fine_art_grade
+        description: "Grade awarded for Fine Art, based on the total score."
+      - name: fine_art_pass
+        description: "Indicates whether the student passed Fine Art, based on school pass criteria."
+      - name: fine_art_attendance
+        description: "Student's attendance percentage for Fine Art classes."
+      - name: fine_art_teacher_id
+        description: "Unique identifier for the Fine Art teacher associated with the student's class."
+      - name: fine_art_teacher_remarks
+        description: "Teacher's remarks or comments for the student in Fine Art."
+      - name: fine_art_teacher_qualification
+        description: "Qualification level of the Fine Art teacher."
+      - name: fine_art_teacher_age
+        description: "Age of the Fine Art teacher."
+      - name: fine_art_teacher_gender
+        description: "Gender of the Fine Art teacher."
+      - name: fine_art_teacher_years_of_experience
+        description: "Years of experience of the Fine Art teacher."
+      - name: fine_art_teacher_qualification_category
+        description: "Qualification category of the Fine Art teacher."
+
+      # Similarly for Mathematics, Civic Education, Biology, Physics, Chemistry, etc.
+
+      - name: extracurricular_activities
+        description: "Details of extracurricular activities the student participated in."
+
+      - name: extracurricular_activities_count
+        description: "Number of extracurricular activities participated in by the student."
+
+      - name: extracurricular_activity_feedback
+        description: "Feedback or notes on the student's participation in extracurricular activities."
+
+      - name: health_incidences
+        description: "Health-related incidences reported for the student during the term."
+
+      - name: health_remarks
+        description: "Remarks related to any health issues or incidents reported for the student."
+
+      - name: average_ca1
+        description: "Average score for Continuous Assessment 1 across all subjects."
+
+      - name: average_ca2
+        description: "Average score for Continuous Assessment 2 across all subjects."
+
+      - name: average_exam
+        description: "Average exam score across all subjects."
+
+      - name: average_total_score
+        description: "Average total score across all subjects for the term."
+
+      - name: aggregate_attendance_percentage
+        description: "Overall attendance percentage across all subjects in the term."
+
+      - name: wassce_pass
+        description: |
+          Indicates whether the student met the WASSCE pass criteria for a given term, based on scoring at least a 
+          credit (C6) in English Language, Mathematics, and three additional subjects from the required categories. 
+          This field allows educators and analysts to assess student readiness for the WASSCE exam on a term-by-term 
+          basis, providing insights into academic performance consistency and preparedness across multiple terms.
+

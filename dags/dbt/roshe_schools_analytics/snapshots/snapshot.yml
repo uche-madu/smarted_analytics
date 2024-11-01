@@ -1,0 +1,172 @@
+version: 2
+
+snapshots:
+  - name: students_snapshot
+    description: |
+      Snapshot for tracking changes in the students table.
+      This captures the state of each student over time, enabling historical analysis on student demographics and key identifiers.
+    columns:
+      - name: student_id
+        description: "Unique identifier for each student."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: first_name
+        description: "First name of the student."
+        data_tests:
+          - not_null
+
+      - name: middle_name
+        description: "Middle name of the student, if applicable."
+
+      - name: last_name
+        description: "Last name of the student."
+        data_tests:
+          - not_null
+
+      - name: gender
+        description: "Gender of the student."
+
+      - name: date_of_birth
+        description: "Date of birth of the student."
+
+      - name: stream
+        description: "Academic stream the student belongs to (e.g., Science, Arts)."
+
+      - name: grade_level
+        description: "Grade level of the student (e.g., SS1, SS2)."
+
+      - name: blood_group
+        description: "Blood group of the student."
+
+      - name: genotype
+        description: "Genotype of the student."
+
+      - name: state_of_origin
+        description: "State of origin of the student."
+
+      - name: address
+        description: "Residential address of the student."
+
+      - name: parent_id
+        description: "Foreign key linking to the parents table."
+
+      - name: registration_date
+        description: "Date when the student was registered."
+
+      - name: created_at
+        description: "Timestamp when the student record was first created."
+        data_tests:
+          - not_null
+
+      - name: updated_at
+        description: "Timestamp when the student record was last updated."
+        data_tests:
+          - not_null
+
+  - name: parents_snapshot
+    description: |
+      This snapshot captures changes in the parent records over time, tracking any updates to fields like phone number, email, and address.
+    columns:
+      - name: parent_id
+        description: "Unique identifier for each parent."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: first_name
+        description: "Parent's first name."
+
+      - name: middle_name
+        description: "Parent's middle name, if applicable."
+
+      - name: last_name
+        description: "Parent's last name."
+
+      - name: gender
+        description: "Parent's gender."
+
+      - name: marital_status
+        description: "Marital status of the parent (e.g., Married, Single)."
+
+      - name: phone_number
+        description: "Contact phone number of the parent."
+        data_tests:
+          - unique
+
+      - name: email
+        description: "Email address of the parent."
+        data_tests:
+          - unique
+
+      - name: address
+        description: "Home address of the parent."
+
+      - name: occupation
+        description: "Parent's occupation."
+
+      - name: relationship_to_student
+        description: "Parent's relationship to the student (e.g., Father, Mother)."
+
+      - name: created_at
+        description: "Timestamp of when the record was created."
+
+      - name: updated_at
+        description: "Timestamp of the last update to the record."
+
+  - name: teachers_snapshot
+    description: |
+      This snapshot captures all changes in the teacher records over time, tracking updates to attributes like phone number, email, address, and other information about teachers.
+    columns:
+      - name: teacher_id
+        description: "Unique identifier for each teacher."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: first_name
+        description: "Teacher's first name."
+
+      - name: middle_name
+        description: "Teacher's middle name, if applicable."
+
+      - name: last_name
+        description: "Teacher's last name."
+
+      - name: gender
+        description: "Teacher's gender."
+
+      - name: date_of_birth
+        description: "Date of birth of the teacher."
+
+      - name: phone_number
+        description: "Contact phone number of the teacher."
+        data_tests:
+          - unique
+
+      - name: email
+        description: "Email address of the teacher."
+        data_tests:
+          - unique
+
+      - name: address
+        description: "Residential address of the teacher."
+
+      - name: hire_date
+        description: "Date the teacher was hired."
+
+      - name: subject
+        description: "Subject the teacher teaches."
+
+      - name: qualification
+        description: "Teacher's qualifications (e.g., B.Ed., M.Sc.)."
+
+      - name: years_of_experience
+        description: "Number of years of teaching experience."
+
+      - name: created_at
+        description: "Timestamp of when the record was created."
+
+      - name: updated_at
+        description: "Timestamp of the last update to the record."

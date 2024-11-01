@@ -5,6 +5,6 @@ CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     participation_level STRING,                    -- Participation level: 'Beginner', 'Intermediate', 'Advanced'
     teacher_id STRING,                             -- Teacher overseeing the activity
     date_joined DATE,                              -- Date the student joined the activity
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the record was created
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Timestamp for last update
+    created_at TIMESTAMP,                          -- Timestamp when the record was created
+    updated_at TIMESTAMP                           -- Timestamp for last update
 );

@@ -9,6 +9,6 @@ CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     discharge_date DATE,                            -- If applicable, date of discharge
     doctor STRING,                                  -- Name of the doctor or medical personnel
     follow_up_date DATE,                            -- Follow-up date, if applicable
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp when the record was created
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Timestamp for last update
+    created_at TIMESTAMP,                           -- Timestamp when the record was created
+    updated_at TIMESTAMP                            -- Timestamp for last update
 );

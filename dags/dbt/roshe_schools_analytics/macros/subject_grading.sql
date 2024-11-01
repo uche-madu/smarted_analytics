@@ -33,6 +33,7 @@
         {% set pass_field = subject ~ '_pass' %}
         {% set attendance = subject ~ '_attendance' %}
         {% set teacher_remarks = subject ~ '_teacher_remarks' %}
+        {% set teacher_id = subject ~ '_teacher_id' %}
 
         {# Generate the grade case statement #}
         {% set grade_case = "CASE WHEN \"" ~ total_column ~ "\" IS NULL THEN NULL " ~
@@ -59,7 +60,8 @@
             grade_case,
             pass_case,
             attendance,
-            teacher_remarks
+            teacher_remarks,
+            teacher_id
         ] %}
 
         {# Append each field to the case statements #}
@@ -73,22 +75,29 @@
 {% endmacro %}
 
 
-
-
-{% macro generate_aggregate_attendance(model_name, field_suffix='_attendance') %}
-    {# Use the reusable macro to get the attendance columns #}
-    {% set attendance_columns = get_columns_by_suffix(model_name, field_suffix) %}
+{% macro generate_average(model_name, field_suffix) %}
+    {% set columns = get_columns_by_suffix(model_name, field_suffix) %}
 
     ROUND(
         (
-            {% for col in attendance_columns %}
-                NULLIF({{ col }}, 0)
+            {% for col in columns %}
+                COALESCE({{ col }}, 0)
                 {% if not loop.last %} + {% endif %}
             {% endfor %}
-        ) / {{ attendance_columns | length }},
+        ) / NULLIF(
+            (
+                {% for col in columns %}
+                    CASE WHEN {{ col }} IS NOT NULL THEN 1 ELSE 0 END
+                    {% if not loop.last %} + {% endif %}
+                {% endfor %}
+            ),
+            0
+        ),
         2
     )
 {% endmacro %}
+
+
 
 
 {% macro generate_wassce_pass_logic(core_subjects, elective_subjects) %}
@@ -106,16 +115,53 @@
 {% endmacro %}
 
 
-{% macro calculate_average_total_score(model_name) %}
-    {# Retrieve the subject total columns dynamically #}
-    {% set subject_totals = get_columns_by_suffix(model_name, '_total') %}
+{% macro generate_teacher_joins(model_name) %}
+    {%- set teacher_id_columns = get_columns_by_suffix(model_name, '_teacher_id') -%}
+    {%- set join_statements = [] -%}
 
-    {# Create the sum of all total columns and count the non-null totals #}
-    {% set non_null_totals = subject_totals | join(' + ') %}
-    {% set total_subject_count = subject_totals | length %}
+    {%- for teacher_id_column in teacher_id_columns %}
+        {%- set subject = teacher_id_column[:-11] -%}
 
-    {# Generate the SQL for average total score #}
-    {{ 
-        "ROUND((" ~ non_null_totals ~ ") / NULLIF(" ~ total_subject_count ~ ", 0), 2)" 
-    }}
+        {%- set join_statement -%}
+        LEFT JOIN {{ ref('dim_teachers') }} t_{{ subject }}
+            ON f.{{ teacher_id_column }} = t_{{ subject }}.teacher_id
+        {%- endset %}
+
+        {%- do join_statements.append(join_statement) -%}
+    {%- endfor -%}
+
+    {{ join_statements | join('\n') }}
 {% endmacro %}
+
+
+
+{% macro generate_teacher_selects(model_name) %}
+    {%- set teacher_id_columns = get_columns_by_suffix(model_name, '_teacher_id') -%}
+    {%- set select_statements = [] -%}
+
+    {%- for teacher_id_column in teacher_id_columns %}
+        {%- set subject = teacher_id_column[:-11] -%}
+
+        {%- set select_statement -%}
+            {{ teacher_id_column }},
+            f.{{ subject }}_ca1,
+            f.{{ subject }}_ca2,
+            f.{{ subject }}_exam,
+            f.{{ subject }}_total,
+            f.{{ subject }}_grade,
+            f.{{ subject }}_pass,
+            f.{{ subject }}_attendance,
+            f.{{ subject }}_teacher_remarks,
+            t_{{ subject }}.qualification AS {{ subject }}_teacher_qualification,
+            t_{{ subject }}.age AS {{ subject }}_teacher_age,
+            t_{{ subject }}.gender AS {{ subject }}_teacher_gender,
+            t_{{ subject }}.years_of_experience AS {{ subject }}_teacher_years_of_experience,
+            t_{{ subject }}.qualification_category AS {{ subject }}_teacher_qualification_category
+        {%- endset %}
+
+        {%- do select_statements.append(select_statement) -%}
+    {%- endfor -%}
+
+    {{ select_statements | join(',\n    ') }}
+{% endmacro %}
+

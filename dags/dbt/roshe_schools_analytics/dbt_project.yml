@@ -31,7 +31,12 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   roshe_schools_analytics:
-    staging:
-      +materialized: view
-    marts:
+    silver:
+      dimensions:
+        +materialized: table
+      facts:
+        +materialized: table
+      staging:
+        +materialized: view
+    gold:
       +materialized: table

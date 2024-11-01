@@ -12,6 +12,6 @@ CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     subject STRING,                               -- Subject the teacher teaches
     qualification STRING,                         -- Teacher's qualifications (e.g., B.Ed., M.Sc.)
     years_of_experience INT,                      -- Number of years of teaching experience
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the record was created
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Timestamp for last update
+    created_at TIMESTAMP,                         -- Timestamp when the record was created
+    updated_at TIMESTAMP                          -- Timestamp for last update
 );

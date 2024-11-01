@@ -1,24 +1,26 @@
--- Added: Ensured all relevant attendance fields are present in subject_grades
 WITH subject_grades AS (
     SELECT
         student_id,
-        name,
-        stream,
         academic_year,
-        class_arm,
-        grade_level,
         term,
+        grade_level,
         {{ generate_subject_case_statements('stg_results') }},
-        {{ generate_aggregate_attendance('stg_results') }} AS aggregate_attendance_percentage,
-        {{ calculate_average_total_score('stg_results') }}  AS average_total_score,
-        created_at,
-        updated_at
+        {{ generate_average('stg_results', '_ca1') }} AS average_ca1,
+        {{ generate_average('stg_results', '_ca2') }} AS average_ca2,
+        {{ generate_average('stg_results', '_exam') }} AS average_exam,
+        {{ generate_average('stg_results', '_total') }} AS average_total_score,
+        {{ generate_average('stg_results', '_attendance') }} AS aggregate_attendance_percentage,
+        ARRAY_SIZE(SPLIT(extracurricular_activities, ';')) AS extracurricular_activities_count,
+        extracurricular_activities,
+        extracurricular_activity_feedback,
+        health_incidences,
+        health_remarks
     FROM {{ ref('stg_results') }}
 ),
 
 final_table AS (
     SELECT
-        *,  -- Pull all fields from subject_grades
+        *,
         {{ generate_wassce_pass_logic(
             ['english_language_pass', 'mathematics_pass'], 
             [
@@ -49,19 +51,21 @@ final_table AS (
     FROM subject_grades
 )
 
--- Final ordered SELECT, visible generated fields for clarity
 SELECT
     student_id,
-    name,
-    stream,
     academic_year,
-    class_arm,
-    grade_level,
     term,
+    grade_level, 
     {{ generate_subject_case_statements('stg_results') }},
-    wassce_pass,
-    aggregate_attendance_percentage,
+    extracurricular_activities,
+    extracurricular_activities_count,
+    extracurricular_activity_feedback,
+    health_incidences,
+    health_remarks,
+    average_ca1,
+    average_ca2,
+    average_exam,
     average_total_score,
-    created_at,
-    updated_at
+    aggregate_attendance_percentage,
+    wassce_pass
 FROM final_table

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime, timedelta
 import time
 import pandas as pd
 import random
@@ -72,8 +72,81 @@ class NigerianSchoolDataProvider(BaseProvider):
         return self.random_element(addresses)
 
     def state_of_origin(self):
-        states_of_origin = ["Lagos", "Abuja", "Kano", "Kaduna", "Oyo", "Rivers", "Enugu", "Anambra"]
+        states_of_origin = [
+            "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue",
+            "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu",
+            "FCT", "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi",
+            "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun",
+            "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"
+        ]
         return self.random_element(states_of_origin)
+
+    def home_language(self):
+        languages = [
+            "English", "Yoruba", "Igbo", "Hausa", "Efik", "Ibibio", "Ijaw", "Tiv",
+            "Edo", "Fulfulde", "Kanuri", "Nupe", "Gwari", "Itsekiri", "Urhobo",
+            "Ikwere", "Jukun", "Idoma"
+        ]
+        return self.random_element(languages)
+
+    def income_bracket(self):
+        brackets = [
+            "Below 100,000 Naira",        # Low income
+            "100,000 - 500,000 Naira",    # Lower-middle income
+            "500,000 - 1,000,000 Naira",  # Middle income
+            "1,000,000 - 3,000,000 Naira", # Upper-middle income
+            "Above 3,000,000 Naira"       # High income
+        ]
+        return self.random_element(brackets)
+
+
+    def education_level(self):
+        education_levels = [
+            "Primary School", "Secondary School", "Technical/Vocational", "Diploma",
+            "Bachelor", "Master", "PhD", "None"
+        ]
+        return self.random_element(education_levels)
+
+    def employment_type(self):
+        employment_types = [
+            "Full-Time", "Part-Time", "Self-Employed", "Unemployed", "Contract",
+            "Freelancer", "Informal Sector"
+        ]
+        return self.random_element(employment_types)
+
+    def industry(self):
+        industries = [
+            "Education", "Healthcare", "Finance", "Retail", "Construction",
+            "Agriculture", "Transportation", "Technology", "Hospitality",
+            "Telecommunications", "Oil & Gas", "Government", "Manufacturing",
+            "Entertainment", "Mining", "Legal", "Other"
+        ]
+        return self.random_element(industries)
+
+    def nigerian_job(self):
+        jobs = [
+            "Teacher", "Doctor", "Engineer", "Accountant", "Nurse", "Banker", 
+            "Civil Servant", "Lawyer", "Pharmacist", "Lecturer", "Police Officer", 
+            "Journalist", "Entrepreneur", "Software Developer", "Mechanic", 
+            "Electrician", "Farmer", "Tailor", "Fashion Designer", "Chef", 
+            "Driver", "Plumber", "Architect", "Scientist", "Environmentalist",
+            "Social Worker", "Graphic Designer", "Consultant", "Data Analyst",
+            "Digital Marketer", "Project Manager", "HR Manager", "Business Analyst",
+            "Sales Representative", "Real Estate Agent", "Photographer", 
+            "Event Planner", "Security Officer", "Financial Advisor", 
+            "Fitness Trainer", "Insurance Agent", "Bank Teller", "Medical Lab Scientist", 
+            "Radiologist", "Administrative Assistant", "Procurement Officer",
+            "Public Relations Officer", "Community Health Worker", "Veterinarian", 
+            "Public Health Specialist", "Trader", "Clergy"
+        ]
+        return self.random_element(jobs)
+    
+    def nigerian_phone_number(self):
+        # Nigerian phone number prefixes
+        prefixes = ["070", "080", "081", "090", "091"]
+        # Select a random prefix and append 8 random digits
+        phone_number = f"{random.choice(prefixes)}{random.randint(10000000, 99999999)}"
+        return phone_number
     
     def blood_group(self):
         blood_groups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
@@ -141,22 +214,31 @@ academic_years = {"SS1": "2022/2023", "SS2": "2023/2024", "SS3": "2024/2025"}
 terms = ["First", "Second", "Third"]
 grade_levels = ["SS1", "SS2", "SS3"]
 class_arms = {"Basic Science and Maths": "A", "Technical and Agricultural": "B", "Commercial": "C", "Liberal Arts and Social Science": "D"}
+terms_sessions = [
+    {"term": term, "session": grade}
+    for grade in grade_levels
+    for term in terms
+    if not (grade == "SS3" and term == "Third")
+]
 
 # Score distributions
 performance_profiles = {
     "Poor": {"ca_mean": 5, "ca_std_dev": 3, "exam_mean": 25, "exam_std_dev": 10},
-    "Average": {"ca_mean": 8, "ca_std_dev": 3, "exam_mean": 35, "exam_std_dev": 9},
-    "Above Average": {"ca_mean": 13, "ca_std_dev": 2, "exam_mean": 55, "exam_std_dev": 10}
+    "Average": {"ca_mean": 8, "ca_std_dev": 3, "exam_mean": 35, "exam_std_dev": 10},
+    "Above Average": {"ca_mean": 12, "ca_std_dev": 3, "exam_mean": 45, "exam_std_dev": 10}
 }
 
 # Assign probabilities for each profile
-profile_probabilities = ["Poor"] * 30 + ["Average"] * 60 + ["Above Average"] * 10
+profile_probabilities = ["Poor"] * 15 + ["Average"] * 65 + ["Above Average"] * 20
 
 
 # Helper function to create unique student ID
 def create_student_id(year, count, stream_abbr):
     return f"{year}{count:04d}{stream_abbr}"
 
+# Helper: Add Timestamps
+def current_timestamp():
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 # Function to generate names and IDs for students and parents
 def generate_student_parent_pairs(stream_name, num_students=30):
@@ -177,7 +259,6 @@ def generate_student_parent_pairs(stream_name, num_students=30):
         parent_id = f"PAR{random.randint(1000, 9999)}"
         parent_first_name = fake.nigerian_first_name()
         parent_middle_name = random.choice([fake.nigerian_first_name(), fake.first_name()])
-        parent_full_name = f"{parent_first_name} {parent_middle_name} {last_name}"
         parent_gender = random.choice(["Male", "Female"])
 
         # Generate additional details
@@ -188,9 +269,8 @@ def generate_student_parent_pairs(stream_name, num_students=30):
         genotype = fake.genotype()
         state_of_origin = fake.state_of_origin()
         registration_date = fake.date_between(start_date=date(2022, 8, 1), end_date=date(2022, 10, 31))
+        profile = performance_profiles[random.choice(profile_probabilities)]
 
-        # Store student data
-        # Capitalize the keys for student data
         student_data.append({
             "Student ID": student_id,
             "First Name": first_name,
@@ -206,25 +286,51 @@ def generate_student_parent_pairs(stream_name, num_students=30):
             "Address": address,
             "Parent ID": parent_id,
             "Registration Date": registration_date,
-            "Full Name": full_name
+            "Full Name": full_name,
+            "Profile": profile,
+            "Created At": current_timestamp(),
+            "Updated At": current_timestamp()
         })
 
-        # Capitalize the keys for parent data
+        # Additional parent socio-economic and engagement details
+        engagement_level = random.randint(1, 10)  # Engagement score based on school interactions
+        relationship_type = random.choice(["Parent", "Relative", "Guardian"])
+        number_of_children = random.randint(1, 5)
+        email = f"{parent_first_name.lower()}.{last_name.lower()}{random.randint(10, 99)}@example.com"
+       
+        # Interaction metrics
+        parent_teacher_meeting_attendance = random.randint(0, 5)
+        volunteer_activities_count = random.randint(0, 3)
+        timestamp = datetime.strptime(current_timestamp(), "%Y-%m-%d %H:%M:%S")
+        recent_interaction_date = timestamp - timedelta(days=random.randint(1, 180))
+
+        # Store parent data with additional engagement and contact fields
         parent_data.append({
             "Parent ID": parent_id,
             "First Name": parent_first_name,
             "Middle Name": parent_middle_name,
             "Last Name": last_name,
             "Gender": parent_gender,
-            "Marital Status": fake.marital_status(),
-            "Phone Number": fake.phone_number(),
-            "Email": fake.email(),
+            "Marital Status": random.choice(["Married", "Single", "Separated", "Divorced", "Widowed"]),
+            "Phone Number": fake.nigerian_phone_number(),
+            "Email": email,
             "Address": address,
-            "Occupation": fake.job(),
-            "Relationship to Student": "Father" if parent_gender == "Male" else "Mother",
-            "Full Name": parent_full_name
+            "Relationship to Student": relationship_type,
+            "Income Bracket": fake.income_bracket(),
+            "Education Level": fake.education_level(),
+            "Occupation": fake.nigerian_job(),
+            "Employment Type": fake.employment_type(),
+            "Industry": fake.industry(),
+            "Engagement Level": engagement_level,
+            "Home Language": fake.home_language(),
+            "Number of Children": number_of_children,
+            "Alternate Contact Number": fake.nigerian_phone_number(),
+            "Parent-Teacher Meeting Attendance": parent_teacher_meeting_attendance,
+            "Volunteer Activities Count": volunteer_activities_count,
+            "Recent Interaction Date": recent_interaction_date,
+            "Created At": current_timestamp(),
+            "Updated At": current_timestamp()
         })
-
 
     return pd.DataFrame(student_data), pd.DataFrame(parent_data)
 
@@ -236,185 +342,166 @@ def generate_term_scores(profile):
     exam = int(random.gauss(profile["exam_mean"], profile["exam_std_dev"]))
     return max(0, min(15, ca1)), max(0, min(15, ca2)), max(10, min(70, exam))
 
+def generate_student_teacher_mapping(subjects, teacher_df):
+    """
+    Randomly assign teachers to subjects for a given session.
+    Each subject will have a unique teacher.
+    """
+    assigned_teachers = teacher_df.sample(len(subjects))
+    return dict(zip(subjects, assigned_teachers["Teacher ID"].tolist()))
 
-# Function to generate session data with attendance and teacher remarks for each subject
-def generate_session_data(student_df, grade_level, term_name):
+# Function to generate session data with extracurricular and health data for each term
+def generate_session_data(student_df, grade_level, term_name, teacher_mapping):
+    """
+    Generate detailed session data including CA scores, attendance, teacher remarks,
+    extracurricular activities (aggregated), and health records (incidence count) for each student.
+    """
     subjects = core_subjects + streams[student_df["Stream"].iloc[0]]
-    columns = ["Student ID", "Name", "Stream", "Academic Year", "Class Arm", "Grade Level", "Term"]
-    
-    # Extend columns to include CA1, CA2, Exam, Total, Attendance %, and Teacher Remarks
+    columns = ["Student ID", "Name", "Stream", 
+               "Academic Year", "Grade Level", "Term"]
+
+    # Extend columns to include CA1, CA2, Exam, Total, Attendance %, Teacher Remarks, and Teacher ID
     for subject in subjects:
-        columns.extend([f"{subject} (CA1)", f"{subject} (CA2)", f"{subject} (Exam)", f"{subject} (Total)", f"{subject} Attendance %", f"{subject} Teacher Remarks"])
+        columns.extend([
+            f"{subject} (CA1)", f"{subject} (CA2)", f"{subject} (Exam)", 
+            f"{subject} (Total)", f"{subject} Attendance %", 
+            f"{subject} Teacher Remarks", f"{subject} Teacher ID"])
+
+    # Add columns for aggregated extracurricular activities and health records
+    columns.extend([
+        "Extracurricular Activities", "Extracurricular Activity Feedback", "Health Incidences", "Health Remarks",
+        "Created At", "Updated At"
+    ])
 
     data = []
-    for _, row in student_df.iterrows():
-        student_id = row["Student ID"]
-        full_name = row["Full Name"]
-        stream_name = row["Stream"]
+    for _, student in student_df.iterrows():
+        student_id = student["Student ID"]
+        full_name = student["Full Name"]
+        stream_name = student["Stream"]
         academic_year = academic_years[grade_level]
-        class_arm = class_arms[stream_name]
-        profile = performance_profiles[random.choice(profile_probabilities)]
+        profile = student["Profile"]
 
-        # Generate attendance, scores, and teacher remarks for each subject
-        term_row = [student_id, full_name, stream_name, academic_year, class_arm, grade_level, term_name]
+        # Initialize row for the student
+        term_row = [student_id, full_name, stream_name, academic_year, grade_level, term_name]
+
+        # Generate scores, attendance, remarks, and assign teacher for each subject
         for subject in subjects:
             ca1, ca2, exam = generate_term_scores(profile)
             total_score = ca1 + ca2 + exam
             attendance_percentage = round(random.uniform(40, 100), 2)
             remarks = fake.remark()
-            term_row.extend([ca1, ca2, exam, total_score, attendance_percentage, remarks])
 
+            # Generate the mapping key using stream and academic_year
+            mapping_key = f"{academic_year}_{stream_name}_{subject}"
+            teacher_id = teacher_mapping[mapping_key]
+
+            # Extend the row with subject-specific data
+            term_row.extend([ca1, ca2, exam, total_score, attendance_percentage, remarks, teacher_id])
+
+        # Generate term-level extracurricular data
+        activity_names = []
+        activity_feedback = []
+        num_activities = random.randint(1, 3)  # Random number of activities per student for the term
+
+        for _ in range(num_activities):
+            activity = random.choice(["Soccer", "Debate Club", "Art Club", "Science Club"])
+            feedback = fake.sentence(nb_words=8)
+            activity_names.append(activity)
+            activity_feedback.append(feedback)
+
+        # Join activities and feedback lists into strings
+        activities = "; ".join(activity_names)
+        feedback_combined = "; ".join(activity_feedback)
+
+        # Generate term-level health data
+        health_incidences = random.randint(0, 3)  # Simulated count of health incidences in the term
+        health_remarks = fake.sentence(nb_words=10) if health_incidences > 0 else ""
+
+        # Add extracurricular and health data to the row
+        term_row.extend([
+            activities, feedback_combined, health_incidences, health_remarks,
+            current_timestamp(), current_timestamp()
+        ])
+        
         data.append(term_row)
 
     return pd.DataFrame(data, columns=columns)
 
 
-def generate_teachers(num_teachers=10):
-    teacher_data = []
 
-    for _ in range(1, num_teachers + 1):
-        teacher_id = f"TEA{random.randint(1000, 9999)}"
-
-        # Generate consistent teacher details
-        first_name = fake.nigerian_first_name()
-        middle_name = random.choice([fake.nigerian_first_name(), fake.first_name()])
-        last_name = fake.nigerian_last_name()
-        full_name = f"{first_name} {middle_name} {last_name}"
-        gender = random.choice(["Male", "Female"])
-        date_of_birth = fake.date_of_birth(minimum_age=25, maximum_age=60)
-        address = fake.nigerian_address()
-        phone_number = fake.phone_number()
-        email = fake.email()
-        hire_date = fake.date_between(start_date=date(2014, 1, 1), end_date=date(2023, 10, 31))
-        subject = fake.subject()
-        qualification = fake.qualification()
-        years_of_experience = random.randint(1, 35)
-
-        # Store teacher data
-        teacher_data.append({
-            "Teacher ID": teacher_id,
-            "First Name": first_name,
-            "Middle Name": middle_name,
-            "Last Name": last_name,
-            "Gender": gender,
-            "Date of Birth": date_of_birth,
-            "Phone Number": phone_number,
-            "Email": email,
-            "Address": address,
-            "Hire Date": hire_date,
-            "Subject": subject,
-            "Qualification": qualification,
-            "Years of Experience": years_of_experience,
-            "Full Name": full_name
-        })
-
-
-    return pd.DataFrame(teacher_data)
-
-def generate_extracurricular_activities(student_df, teacher_df, num_records_per_student=2):
+def generate_teacher(subject):
     """
-    Generate extracurricular activities data for students and assign a unique teacher to each activity.
-    Each activity will have a specific teacher assigned, ensuring no overlapping teacher assignments.
-
-    Parameters:
-    student_df (pd.DataFrame): DataFrame containing student data.
-    teacher_df (pd.DataFrame): DataFrame containing teacher data.
-    num_records_per_student (int): Number of activities per student (default is 2).
-
-    Returns:
-    pd.DataFrame: DataFrame containing generated extracurricular activities data.
+    Generate a teacher with relevant details.
     """
-    # Define extracurricular activities and participation levels
-    activities_list = ["Soccer", "Basketball", "Chess Club", "Debate Club", "Drama", 
-                       "Music Band", "Art Club", "Science Club", "Coding Club", "Math Olympiad", 
-                       "Literature Club", "Environment Club", "Culinary Club", "Photography Club"]
-    participation_levels = ["Beginner", "Intermediate", "Advanced"]
+    teacher_id = f"TEA{random.randint(1000, 9999)}"
+    first_name = fake.nigerian_first_name()
+    middle_name = random.choice([fake.nigerian_first_name(), fake.first_name()])
+    last_name = fake.nigerian_last_name()
+    gender = random.choice(["Male", "Female"])
+    date_of_birth = fake.date_of_birth(minimum_age=25, maximum_age=60)
+    address = fake.nigerian_address()
+    phone_number = fake.nigerian_phone_number()
+    email = email = f"{first_name.lower()}.{last_name.lower()}{random.randint(10, 99)}@example.com"
+    hire_date = fake.date_between(start_date=date(2014, 1, 1), end_date=date(2023, 10, 31))
+    qualification = fake.qualification()
+    years_of_experience = random.randint(1, 35)
 
-    # Randomly select teachers to match with activities
-    teachers = teacher_df.sample(len(activities_list), random_state=42)  # Ensure unique teacher assignment
-    activity_teacher_map = dict(zip(activities_list, teachers["Teacher ID"].tolist()))
-
-    # Generate extracurricular activity data for each student
-    activity_data = []
-    for _, student in student_df.iterrows():
-        student_id = student["Student ID"]
-
-        # Assign a number of activities to each student
-        selected_activities = random.sample(activities_list, num_records_per_student)
-
-        for activity in selected_activities:
-            activity_id = f"ACT{random.randint(1000, 9999)}"
-            teacher_id = activity_teacher_map[activity]
-            participation_level = random.choice(participation_levels)
-            date_joined = fake.date_between(start_date=date(2022, 8, 1), end_date=date(2022, 12, 31))
-
-            activity_data.append({
-                "Activity ID": activity_id,
-                "Activity Name": activity,
-                "Student ID": student_id,
-                "Participation Level": participation_level,
-                "Teacher ID": teacher_id,
-                "Date Joined": date_joined
-            })
-
-
-    return pd.DataFrame(activity_data)
-
-def generate_health_records(student_df, num_records=2):
-    # Define sample health issues paired with likely treatments
-    health_issue_treatment_pairs = {
-        "Asthma": "Inhaler and regular checkups",
-        "Diabetes": "Insulin therapy and diet management",
-        "Allergy": "Antihistamines and allergen avoidance",
-        "Malaria": "Antimalarial medication",
-        "Flu": "Rest, hydration, and flu medication",
-        "Vision Problems": "Prescription glasses",
-        "Hearing Issues": "Hearing aid or therapy"
+    return {
+        "Teacher ID": teacher_id,
+        "First Name": first_name,
+        "Middle Name": middle_name,
+        "Last Name": last_name,
+        "Gender": gender,
+        "Date of Birth": date_of_birth,
+        "Phone Number": phone_number,
+        "Email": email,
+        "Address": address,
+        "Hire Date": hire_date,
+        "Subject": subject,
+        "Qualification": qualification,
+        "Years of Experience": years_of_experience,
+        "Created At": current_timestamp(),
+        "Updated At": current_timestamp()
     }
 
-    doctors_list = ["Dr. Adebayo", "Dr. Ojo", "Dr. Eze", "Dr. Ibrahim", "Dr. Williams", "Dr. Okafor"]
+def generate_teachers(subjects, num_teachers_per_subject=3, core_subject_teachers=4):
+    """
+    Generates teachers with appropriate subject assignment, ensuring core subjects 
+    have at least 4 teachers and other subjects have 1-3 teachers.
+    """
+    teacher_data = []
+    assigned_teachers = {}
 
-    health_data = []
+    for subject in subjects:
+        # Determine the number of teachers needed for core vs non-core subjects
+        num_teachers = core_subject_teachers if subject in core_subjects else random.randint(1, num_teachers_per_subject)
 
-    # Select 40% of the students to generate health records for
-    selected_students = student_df.sample(frac=0.4, random_state=42)
+        # Generate the required number of teachers for the subject
+        for _ in range(num_teachers):
+            teacher = generate_teacher(subject)
+            teacher_data.append(teacher)
+            assigned_teachers.setdefault(subject, []).append(teacher["Teacher ID"])
 
-    # Generate health records for the selected students only
-    for _, student in selected_students.iterrows():
-        student_id = student["Student ID"]
+    return pd.DataFrame(teacher_data), assigned_teachers
 
-        # Create a specified number of health records for each selected student
-        for _ in range(random.randint(1, num_records)):
-            record_id = f"HR{random.randint(1000, 9999)}"  # Unique record ID
-            checkup_date = fake.date_between(start_date=date(2022, 8, 1), end_date=date(2022, 12, 31))
-            
-            # Assign health issue and treatment (excluding "None")
-            health_issue = random.choice(list(health_issue_treatment_pairs.keys()))
-            treatment = health_issue_treatment_pairs[health_issue]
-            
-            doctor = random.choice(doctors_list)
+def generate_teacher_mapping(teacher_df, academic_year, stream):
+    """
+    Generate a mapping of teachers to subjects for a specific academic year and stream.
+    The same teacher teaches the same subject across all students in the stream.
+    """
+    subjects = core_subjects + streams[stream]  # Combine core subjects with stream-specific subjects
+    assigned_teachers = {}
 
-            # Admission status and dates
-            admitted = "Yes" if random.random() < 0.3 else "No"
-            admission_date = checkup_date if admitted == "Yes" else None
-            discharge_date = fake.date_between(start_date=admission_date, end_date=date(2023, 1, 31)) if admitted == "Yes" else None
-            follow_up_date = fake.date_between(start_date=checkup_date, end_date=date(2023, 3, 31)) if random.random() < 0.5 else None
+    for subject in subjects:
+        # Use the stream and academic_year to generate the correct key
+        key = f"{academic_year}_{stream}_{subject}"
+        if key not in assigned_teachers:
+            # Randomly assign a teacher who teaches this subject
+            teacher_id = random.choice(teacher_df[teacher_df["Subject"] == subject]["Teacher ID"].tolist())
+            assigned_teachers[key] = teacher_id  # Assign this teacher to the subject for the stream
 
-            health_data.append({
-                "Record ID": record_id,
-                "Student ID": student_id,
-                "Checkup Date": checkup_date,
-                "Health Issues": health_issue,
-                "Treatment": treatment,
-                "Admitted": admitted,
-                "Admission Date": admission_date,
-                "Discharge Date": discharge_date,
-                "Doctor": doctor,
-                "Follow Up Date": follow_up_date
-            })
+    return assigned_teachers
 
-
-    return pd.DataFrame(health_data)
 
 # Function to update Google Sheets with generated data for each term
 def update_google_sheet(worksheet_name, dataframe, sheet_url):
@@ -439,40 +526,35 @@ def main():
     all_students_df = pd.DataFrame()
     all_parents_df = pd.DataFrame()
 
-    # 1. Generate and update 'results', 'students', and 'parents' sheets for each stream, grade, and term
+    # Generate and update 'teachers' sheet
+    teacher_df, _ = generate_teachers(subjects=list(core_subjects + sum(streams.values(), [])), num_teachers_per_subject=3)
+    update_google_sheet("Teachers Bio", teacher_df, SHEET_CONFIG["teachers"]["url"])
+
+    # Loop through streams and generate student-parent pairs for each stream
     for stream in streams.keys():
-        
         student_df, parent_df = generate_student_parent_pairs(stream, num_students=30)
-        # Append generated data to master DataFrames
         all_students_df = pd.concat([all_students_df, student_df], ignore_index=True)
         all_parents_df = pd.concat([all_parents_df, parent_df], ignore_index=True)
 
+        # For each grade level and term, generate session data
         for grade in grade_levels:
             for term in terms:
-                # Skip generating results for SS3 third term 
-                # because students write external exams in SS3 third term 
                 if grade == "SS3" and term == "Third":
                     continue
 
-                results_df = generate_session_data(student_df, grade, term)
+                # Generate teacher mapping for the current academic year and stream
+                teacher_mapping = generate_teacher_mapping(teacher_df, academic_year=academic_years[grade], stream=stream)
+                
+                # Generate session data for students in the current grade, term, and stream
+                results_df = generate_session_data(student_df, grade, term, teacher_mapping)
                 sheet_name = f"{grade} {stream} {term} Term"
                 update_google_sheet(sheet_name, results_df, SHEET_CONFIG["results"]["url"])
     
-    # 1. Generate and update 'students' and 'parents' sheet
+    all_students_df = all_students_df.drop(columns=["Profile", "Full Name"])
+
+    # Generate and update 'students' and 'parents' sheet
     update_google_sheet("Students Bio", all_students_df, SHEET_CONFIG["students"]["url"])
     update_google_sheet("Parents Bio", all_parents_df, SHEET_CONFIG["parents"]["url"])
-
-    # 2. Generate and update 'teachers' sheet
-    teacher_df = generate_teachers(num_teachers=40)
-    update_google_sheet("Teachers Bio", teacher_df, SHEET_CONFIG["teachers"]["url"])
-
-    # 3. Generate and update 'extracurricular_activities' sheet
-    extracurricular_df = generate_extracurricular_activities(all_students_df, teacher_df)
-    update_google_sheet("Extracurricular Activities", extracurricular_df, SHEET_CONFIG["extracurricular"]["url"])
-
-    # 4. Generate and update 'health_records' sheet
-    health_records_df = generate_health_records(all_students_df)
-    update_google_sheet("Student Health Records", health_records_df, SHEET_CONFIG["health"]["url"])
 
 if __name__ == "__main__":
     try:

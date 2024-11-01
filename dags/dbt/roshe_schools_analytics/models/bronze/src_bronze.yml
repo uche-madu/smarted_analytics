@@ -39,6 +39,9 @@ sources:
             description: Attendance percentage for English Language
           - name: english_language_teacher_remarks
             description: Teacher's remarks for English Language
+          - name: english_language_teacher_id
+            description: "Unique identifier for the teacher responsible for English Language."
+
 
           # Mathematics fields
           - name: mathematics_ca1
@@ -53,6 +56,9 @@ sources:
             description: Attendance percentage for Mathematics
           - name: mathematics_teacher_remarks
             description: Teacher's remarks for Mathematics
+          - name: mathematics_teacher_id
+            description: "Unique identifier for the teacher responsible for Mathematics."
+
 
           # Civic Education fields
           - name: civic_education_ca1
@@ -67,6 +73,8 @@ sources:
             description: Attendance percentage for Civic Education
           - name: civic_education_teacher_remarks
             description: Teacher's remarks for Civic Education
+          - name: civic_education_teacher_id
+            description: "Unique identifier for the teacher responsible for Civic Education."
 
           # Biology fields
           - name: biology_ca1
@@ -81,6 +89,8 @@ sources:
             description: Attendance percentage for Biology
           - name: biology_teacher_remarks
             description: Teacher's remarks for Biology
+          - name: biology_teacher_id
+            description: "Unique identifier for the teacher responsible for Biology."
 
           # Physics fields
           - name: physics_ca1
@@ -95,6 +105,8 @@ sources:
             description: Attendance percentage for Physics
           - name: physics_teacher_remarks
             description: Teacher's remarks for Physics
+          - name: physics_teacher_id
+            description: "Unique identifier for the teacher responsible for Physics."
 
           # Chemistry fields
           - name: chemistry_ca1
@@ -109,6 +121,8 @@ sources:
             description: Attendance percentage for Chemistry
           - name: chemistry_teacher_remarks
             description: Teacher's remarks for Chemistry
+          - name: chemistry_teacher_id
+            description: "Unique identifier for the teacher responsible for Chemistry."
 
           # Further Mathematics fields
           - name: further_mathematics_ca1
@@ -123,6 +137,8 @@ sources:
             description: Attendance percentage for Further Mathematics
           - name: further_mathematics_teacher_remarks
             description: Teacher's remarks for Further Mathematics
+          - name: further_mathematics_teacher_id
+            description: "Unique identifier for the teacher responsible for Further Mathematics."
 
           # Health Education fields
           - name: health_education_ca1
@@ -137,6 +153,8 @@ sources:
             description: Attendance percentage for Health Education
           - name: health_education_teacher_remarks
             description: Teacher's remarks for Health Education
+          - name: health_education_teacher_id
+            description: "Unique identifier for the teacher responsible for Health Education."
 
           # Computer Science fields
           - name: computer_science_ca1
@@ -151,6 +169,8 @@ sources:
             description: Attendance percentage for Computer Science
           - name: computer_science_teacher_remarks
             description: Teacher's remarks for Computer Science
+          - name: computer_science_teacher_id
+            description: "Unique identifier for the teacher responsible for Computer Science."
 
           # Technical Drawing fields
           - name: technical_drawing_ca1
@@ -165,6 +185,8 @@ sources:
             description: Attendance percentage for Technical Drawing
           - name: technical_drawing_teacher_remarks
             description: Teacher's remarks for Technical Drawing
+          - name: technical_drawing_teacher_id
+            description: "Unique identifier for the teacher responsible for Technical Drawing."
 
           # Food and Nutrition fields
           - name: food_and_nutrition_ca1
@@ -179,6 +201,8 @@ sources:
             description: Attendance percentage for Food and Nutrition
           - name: food_and_nutrition_teacher_remarks
             description: Teacher's remarks for Food and Nutrition
+          - name: food_and_nutrition_teacher_id
+            description: "Unique identifier for the teacher responsible for Food and Nutrition."
 
           # Agricultural Science fields
           - name: agricultural_science_ca1
@@ -193,6 +217,8 @@ sources:
             description: Attendance percentage for Agricultural Science
           - name: agricultural_science_teacher_remarks
             description: Teacher's remarks for Agricultural Science
+          - name: agricultural_science_teacher_id
+            description: "Unique identifier for the teacher responsible for Agricultural Science."
 
           # Financial Accounting fields
           - name: financial_accounting_ca1
@@ -207,6 +233,8 @@ sources:
             description: Attendance percentage for Financial Accounting
           - name: financial_accounting_teacher_remarks
             description: Teacher's remarks for Financial Accounting
+          - name: financial_accounting_teacher_id
+            description: "Unique identifier for the teacher responsible for Financial Accounting."
 
           # Book Keeping fields
           - name: book_keeping_ca1
@@ -221,6 +249,8 @@ sources:
             description: Attendance percentage for Book Keeping
           - name: book_keeping_teacher_remarks
             description: Teacher's remarks for Book Keeping
+          - name: book_keeping_teacher_id
+            description: "Unique identifier for the teacher responsible for Book Keeping."
 
           # Commerce fields
           - name: commerce_ca1
@@ -235,6 +265,8 @@ sources:
             description: Attendance percentage for Commerce
           - name: commerce_teacher_remarks
             description: Teacher's remarks for Commerce
+          - name: commerce_teacher_id
+            description: "Unique identifier for the teacher responsible for Commerce."
 
           # Data Processing fields
           - name: data_processing_ca1
@@ -249,6 +281,8 @@ sources:
             description: Attendance percentage for Data Processing
           - name: data_processing_teacher_remarks
             description: Teacher's remarks for Data Processing
+          - name: data_processing_teacher_id
+            description: "Unique identifier for the teacher responsible for Data Processing."
 
           # Office Practice fields
           - name: office_practice_ca1
@@ -263,6 +297,8 @@ sources:
             description: Attendance percentage for Office Practice
           - name: office_practice_teacher_remarks
             description: Teacher's remarks for Office Practice
+          - name: office_practice_teacher_id
+            description: "Unique identifier for the teacher responsible for Office Practice."
 
           # Typewriting fields
           - name: typewriting_ca1
@@ -277,6 +313,8 @@ sources:
             description: Attendance percentage for Typewriting
           - name: typewriting_teacher_remarks
             description: Teacher's remarks for Typewriting
+          - name: typewriting_teacher_id
+            description: "Unique identifier for the teacher responsible for Typewriting."
 
           # Economics fields
           - name: economics_ca1
@@ -291,6 +329,8 @@ sources:
             description: Attendance percentage for Economics
           - name: economics_teacher_remarks
             description: Teacher's remarks for Economics
+          - name: economics_teacher_id
+            description: "Unique identifier for the teacher responsible for Economics."
 
           # Government fields
           - name: government_ca1
@@ -305,6 +345,8 @@ sources:
             description: Attendance percentage for Government
           - name: government_teacher_remarks
             description: Teacher's remarks for Government
+          - name: government_teacher_id
+            description: "Unique identifier for the teacher responsible for Government."
 
           # Literature in English fields
           - name: literature_in_english_ca1
@@ -319,6 +361,8 @@ sources:
             description: Attendance percentage for Literature in English
           - name: literature_in_english_teacher_remarks
             description: Teacher's remarks for Literature in English
+          - name: literature_in_english_teacher_id
+            description: "Unique identifier for the teacher responsible for Literature in English."
 
           # Christian Religion Knowledge fields
           - name: christian_religion_knowledge_ca1
@@ -333,6 +377,8 @@ sources:
             description: Attendance percentage for Christian Religion Knowledge
           - name: christian_religion_knowledge_teacher_remarks
             description: Teacher's remarks for Christian Religion Knowledge
+          - name: christian_religion_knowledge_teacher_id
+            description: "Unique identifier for the teacher responsible for Christian Religion Knowledge."
 
           # Geography fields
           - name: geography_ca1
@@ -347,6 +393,8 @@ sources:
             description: Attendance percentage for Geography
           - name: geography_teacher_remarks
             description: Teacher's remarks for Geography
+          - name: geography_teacher_id
+            description: "Unique identifier for the teacher responsible for Geography."
 
           # Fine Art fields
           - name: fine_art_ca1
@@ -361,6 +409,24 @@ sources:
             description: Attendance percentage for Fine Art
           - name: fine_art_teacher_remarks
             description: Teacher's remarks for Fine Art
+          - name: fine_art_teacher_id
+            description: "Unique identifier for the teacher responsible for Fine Art."
+
+          # Extracurricular Activities
+          - name: extracurricular_activities
+            description: "List of extracurricular activities in which the student participated during the term."
+          - name: extracurricular_activity_feedback
+            description: "Feedback or comments on the student's performance and participation in extracurricular activities."
+
+          # Health Records
+          - name: health_incidences
+            description: "Count of health incidents recorded for the student during the term."
+            data_tests:
+            - dbt_utils.accepted_range:
+                min_value: 0
+                max_value: 30
+          - name: health_remarks
+            description: "Remarks or notes related to the health incidents for the student in the term."
 
           # Metadata fields
           - name: created_at
@@ -468,7 +534,7 @@ sources:
               - not_null
 
       - name: parents
-        description: Table containing parent details, including personal information and relationship to students.
+        description: Table containing parent details, including personal information, socio-economic details, and engagement with the school.
         columns:
           - name: parent_id
             description: Unique identifier for each parent.
@@ -488,9 +554,9 @@ sources:
           - name: gender
             description: Parent's gender.
           - name: marital_status
-            description: Marital status (e.g., 'Married', 'Single').
+            description: Marital status (e.g., 'Married', 'Single', 'Divorced', 'Widowed').
           - name: phone_number
-            description: Contact phone number.
+            description: Primary contact phone number.
             data_tests:
               - unique
           - name: email
@@ -499,76 +565,34 @@ sources:
               - unique
           - name: address
             description: Residential address of the parent.
-          - name: occupation
-            description: Parent's occupation.
           - name: relationship_to_student
-            description: Relationship to student (e.g., 'Father', 'Mother').
+            description: Relationship to student (e.g., 'Parent', 'Guardian', 'Relative').
+          - name: income_bracket
+            description: Income bracket of the parent (e.g., 'Low', 'Middle', 'High').
+          - name: education_level
+            description: Highest level of education attained by the parent (e.g., 'Secondary School', 'Bachelor', 'Master', 'PhD').
+          - name: occupation
+            description: Parent's occupation or job title.
+          - name: employment_type
+            description: Employment status of the parent (e.g., 'Full-Time', 'Part-Time', 'Unemployed').
+          - name: industry
+            description: Industry sector in which the parent works (e.g., 'Education', 'Healthcare', 'Finance').
+          - name: engagement_level
+            description: Level of engagement of the parent with the school, measured by interactions.
+          - name: home_language
+            description: Primary language spoken at home.
+          - name: number_of_children
+            description: Total number of children in the household.
+          - name: alternate_contact_number
+            description: Secondary contact phone number.
+          - name: parent_teacher_meeting_attendance
+            description: Number of parent-teacher meetings attended.
+          - name: volunteer_activities_count
+            description: Number of volunteer activities in which the parent has participated.
+          - name: recent_interaction_date
+            description: Timestamp of the last recorded interaction between the parent and the school.
           - name: created_at
             description: Timestamp indicating when the record was created.
-            data_tests:
-              - not_null
-          - name: updated_at
-            description: Timestamp for the last update of the record.
-            data_tests:
-              - not_null
-
-      - name: health_records
-        description: Table containing student health check-up records, treatments, and follow-up details.
-        columns:
-          - name: record_id
-            description: Unique identifier for each health record.
-            data_tests:
-              - unique
-              - not_null
-          - name: student_id
-            description: Foreign key referencing the student.
-          - name: checkup_date
-            description: Date of the health check-up.
-          - name: health_issues
-            description: Health issues identified during the check-up.
-          - name: treatment
-            description: Treatment recommended or administered.
-          - name: admitted
-            description: Whether or not there was a hospital or clinic admission.
-          - name: admission_date
-            description: If applicable, date of hospital admission.
-          - name: discharge_date
-            description: If applicable, date of discharge.
-          - name: doctor
-            description: Name of the doctor or medical personnel.
-          - name: follow_up_date
-            description: Follow-up date for health issues, if applicable.
-          - name: created_at
-            description: Timestamp when the record was created.
-            data_tests:
-              - not_null
-          - name: updated_at
-            description: Timestamp for the last update of the record.
-            data_tests:
-              - not_null
-
-      - name: extracurricular_activities
-        description: Contains details of students' participation in various extracurricular activities.
-        columns:
-          - name: activity_id
-            description: Unique identifier for each extracurricular activity.
-            data_tests:
-              # - unique # should be unique, current data is faulty
-              - not_null
-          - name: activity_name
-            description: Name of the activity (e.g., 'Soccer', 'Debate Club').
-            data_tests:
-              - not_null
-          - name: student_id
-            description: Foreign key referencing the student.
-          - name: participation_level
-            description: Participation level 'Beginner', 'Intermediate', 'Advanced'.
-          - name: teacher_id
-            description: Teacher overseeing the activity.
-          - name: date_joined
-            description: Date the student joined the activity.
-          - name: created_at
-            description: Timestamp when the record was created.
             data_tests:
               - not_null
           - name: updated_at

@@ -17,3 +17,7 @@ generate_scores.py
 generation_tests.py
 old_main.py
 cosmosproject
+superset/
+gen_verify.py
+results.csv
+.python-version

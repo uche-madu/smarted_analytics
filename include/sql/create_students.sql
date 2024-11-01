@@ -13,6 +13,6 @@ CREATE OR REPLACE TABLE {{ params.schema_name }}.{{ params.table_name }} (
     address TEXT,
     parent_id VARCHAR(20),
     registration_date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the record was created
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Timestamp for last update
+    created_at TIMESTAMP,  
+    updated_at TIMESTAMP
 );
