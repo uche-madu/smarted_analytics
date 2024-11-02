@@ -1,4 +1,6 @@
 # SmartEd Analytics: Improving Student Performance through Data-Driven Insights
+## To Do: Update to README underway. Lots of code changes since the last README update.
+
 ## Introduction
 SmartEd Analytics is a proof-of-concept solution developed for [DataFestAfrica Hackathon 2024](https://portfolio.diceytech.co.uk/project-opportunity/1727715039866x124628249482625020) to address the lack of data infrastructure in African secondary schools. Our project is built around Roshe Schools International [](https://roshallomschools.com/secondary-school/academics/sss-senior-secondary-school/) in Lagos, Nigeria, which manually records student results, health, and extracurricular activities. The goal is to implement a comprehensive data pipeline and warehousing solution to transform fragmented records into actionable insights and improve academic performance in key exams such as JAMB and WASSCE.
 
