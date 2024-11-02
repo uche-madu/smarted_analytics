@@ -83,13 +83,13 @@
             {% for col in columns %}
                 COALESCE({{ col }}, 0)
                 {% if not loop.last %} + {% endif %}
-            {% endfor %}
+{% endfor %}
         ) / NULLIF(
             (
                 {% for col in columns %}
                     CASE WHEN {{ col }} IS NOT NULL THEN 1 ELSE 0 END
                     {% if not loop.last %} + {% endif %}
-                {% endfor %}
+{% endfor %}
             ),
             0
         ),
@@ -101,6 +101,7 @@
 
 
 {% macro generate_wassce_pass_logic(core_subjects, elective_subjects) %}
+
     CASE
         WHEN {{ core_subjects[0] }} = 'Pass'
             AND {{ core_subjects[1] }} = 'Pass'
@@ -108,7 +109,7 @@
                 {% for subject in elective_subjects %}
                     (CASE WHEN {{ subject }} = 'Pass' THEN 1 ELSE 0 END)
                     {% if not loop.last %} + {% endif %}
-                {% endfor %}
+    {% endfor %}
             ) >= 3 THEN 'Pass'
         ELSE 'Fail'
     END AS wassce_pass
@@ -164,4 +165,3 @@
 
     {{ select_statements | join(',\n    ') }}
 {% endmacro %}
-

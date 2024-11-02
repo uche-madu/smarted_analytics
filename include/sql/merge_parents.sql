@@ -28,10 +28,10 @@ WHEN MATCHED THEN
        target.updated_at = source.$24
 WHEN NOT MATCHED THEN
    INSERT (
-       parent_id, first_name, middle_name, last_name, gender, marital_status, phone_number, email, address, 
-       relationship_to_student, income_bracket, education_level, occupation, employment_type, 
-       industry, engagement_level, home_language, number_of_children, alternate_contact_number, 
-       parent_teacher_meeting_attendance, volunteer_activities_count, recent_interaction_date, 
+       parent_id, first_name, middle_name, last_name, gender, marital_status, phone_number, email, address,
+       relationship_to_student, income_bracket, education_level, occupation, employment_type,
+       industry, engagement_level, home_language, number_of_children, alternate_contact_number,
+       parent_teacher_meeting_attendance, volunteer_activities_count, recent_interaction_date,
        created_at, updated_at
    )
    VALUES (

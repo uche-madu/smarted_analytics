@@ -4,7 +4,7 @@ ROUND(
         {% for subject in subject_list %}
             COALESCE({{ subject }}_total, 0)
             {% if not loop.last %} + {% endif %}
-        {% endfor %}
+{% endfor %}
     ) / NULLIF(
         COUNT(
             CASE
@@ -19,11 +19,12 @@ ROUND(
 
 
 {% macro calculate_total_term_score(subject_list) %}
+
 (
     COALESCE(
         {% for subject in subject_list %}
             SUM({{ subject }}_total){% if not loop.last %} + {% endif %}
-        {% endfor %}
+    {% endfor %}
     , 0)
 )
 {% endmacro %}
@@ -54,16 +55,16 @@ COUNT(DISTINCT (
 
 
 {% macro cumulative_term_average(subject_pass_list) %}
+
 ROUND(
     SUM(
         {% for subject in subject_pass_list %}
-            CASE 
+            CASE
                 WHEN COALESCE({{ subject }}, NULL) IS NOT NULL THEN 1
-                ELSE 0 
+                ELSE 0
             END
             {% if not loop.last %} + {% endif %}
-        {% endfor %}
+    {% endfor %}
     ) / NULLIF(COUNT(*), 0), 2
 )
 {% endmacro %}
-

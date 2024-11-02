@@ -3,10 +3,10 @@ version: 2
 models:
   - name: fact_results
     description: |
-      This fact table contains students' academic results data. It tracks scores across subjects, attendance, 
-      average total scores, and WASSCE pass rates for each student in a given academic year, term, and grade level. 
+      This fact table contains students' academic results data. It tracks scores across subjects, attendance,
+      average total scores, and WASSCE pass rates for each student in a given academic year, term, and grade level.
       The table is designed to support analytical queries and reporting on student performance over time.
-      
+
     columns:
       - name: student_id
         description: "Primary key for each student. This uniquely identifies the student across all academic years and terms."
@@ -1434,11 +1434,11 @@ models:
       - name: extracurricular_activities
         description: |
           List of extracurricular activities the student participated in during the term, separated by semicolons.
-      
+
       - name: extracurricular_activity_feedback
         description: |
           Aggregated feedback for each activity the student participated in, corresponding to the listed activities.
-        
+
       - name: health_incidences
         description: |
           Count of health-related incidences recorded for the student in the term.
@@ -1453,7 +1453,7 @@ models:
 
       - name: wassce_pass
         description: |
-          Indicates whether the student passed the WASSCE criteria. The pass logic is based on passing English Language, 
+          Indicates whether the student passed the WASSCE criteria. The pass logic is based on passing English Language,
           Mathematics, and at least three other subjects from the required categories.
         data_tests:
           - not_null
@@ -1497,5 +1497,3 @@ models:
           - between_or_null:
               lower_bound: 0
               upper_bound: 100
- 
-

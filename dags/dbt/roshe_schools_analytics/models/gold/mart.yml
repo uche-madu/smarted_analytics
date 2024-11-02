@@ -3,12 +3,12 @@ version: 2
 models:
   - name: student_performance_summary
     description: >
-      This table provides a comprehensive summary of student performance with data organized per student, term, 
-      and academic year. Each row represents a unique student’s performance across multiple subjects for a given 
-      term within a specific academic year. The table includes student demographics, subject-specific scores, 
-      attendance records, teacher qualifications, and socio-economic and engagement details for parents. This 
-      structure allows for detailed longitudinal analyses of student progress and performance trends over time, 
-      supporting use cases such as term-by-term comparison, year-over-year academic growth tracking, teacher impact 
+      This table provides a comprehensive summary of student performance with data organized per student, term,
+      and academic year. Each row represents a unique student’s performance across multiple subjects for a given
+      term within a specific academic year. The table includes student demographics, subject-specific scores,
+      attendance records, teacher qualifications, and socio-economic and engagement details for parents. This
+      structure allows for detailed longitudinal analyses of student progress and performance trends over time,
+      supporting use cases such as term-by-term comparison, year-over-year academic growth tracking, teacher impact
       evaluation on student outcomes, and correlation analyses between parent engagement and student performance.
 
     columns:
@@ -837,8 +837,7 @@ models:
 
       - name: wassce_pass
         description: |
-          Indicates whether the student met the WASSCE pass criteria for a given term, based on scoring at least a 
-          credit (C6) in English Language, Mathematics, and three additional subjects from the required categories. 
-          This field allows educators and analysts to assess student readiness for the WASSCE exam on a term-by-term 
+          Indicates whether the student met the WASSCE pass criteria for a given term, based on scoring at least a
+          credit (C6) in English Language, Mathematics, and three additional subjects from the required categories.
+          This field allows educators and analysts to assess student readiness for the WASSCE exam on a term-by-term
           basis, providing insights into academic performance consistency and preparedness across multiple terms.
-

@@ -22,7 +22,7 @@ final_table AS (
     SELECT
         *,
         {{ generate_wassce_pass_logic(
-            ['english_language_pass', 'mathematics_pass'], 
+            ['english_language_pass', 'mathematics_pass'],
             [
                 'civic_education_pass',
                 'biology_pass',
@@ -55,7 +55,7 @@ SELECT
     student_id,
     academic_year,
     term,
-    grade_level, 
+    grade_level,
     {{ generate_subject_case_statements('stg_results') }},
     extracurricular_activities,
     extracurricular_activities_count,

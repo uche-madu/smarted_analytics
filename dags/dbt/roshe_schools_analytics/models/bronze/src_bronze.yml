@@ -437,7 +437,7 @@ sources:
             description: Timestamp for the last update of the record
             data_tests:
               - not_null
-      
+
       - name: teachers
         description: Table containing details about teachers, their qualifications, and subjects they teach.
         columns:

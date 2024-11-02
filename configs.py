@@ -11,21 +11,21 @@ SHEET_CONFIG = {
     "results": {
         "required_columns": {"Student ID", "Grade Level", "Term"},
         "output_file": "results.csv",
-        "url": os.getenv("GOOGLE_SHEET_URL_RESULTS")
+        "url": os.getenv("GOOGLE_SHEET_URL_RESULTS"),
     },
     "students": {
         "required_columns": {"Student ID"},
         "output_file": "students.csv",
-        "url": os.getenv("GOOGLE_SHEET_URL_STUDENTS")
+        "url": os.getenv("GOOGLE_SHEET_URL_STUDENTS"),
     },
     "parents": {
         "required_columns": {"Parent ID"},
         "output_file": "parents.csv",
-        "url": os.getenv("GOOGLE_SHEET_URL_PARENTS")
+        "url": os.getenv("GOOGLE_SHEET_URL_PARENTS"),
     },
     "teachers": {
         "required_columns": {"Teacher ID"},
         "output_file": "teachers.csv",
-        "url": os.getenv("GOOGLE_SHEET_URL_TEACHERS")
+        "url": os.getenv("GOOGLE_SHEET_URL_TEACHERS"),
     },
 }

@@ -25,7 +25,7 @@ models:
         description: Grade level (e.g., 'SS1', 'JS2').
       - name: term
         description: Academic term (e.g., 'First', 'Second').
-      
+
       # English Language fields
       - name: english_language_ca1
         description: English Language Continuous Assessment 1 score
@@ -451,7 +451,7 @@ models:
               to: ref('stg_results')
           - relationships:
               to: source('bronze', 'students')
-              field: student_id              
+              field: student_id
       - name: first_name
         description: Student's first name.
       - name: middle_name
@@ -501,7 +501,7 @@ models:
               to: ref('stg_students')
           - relationships:
               to: source('bronze', 'parents')
-              field: parent_id              
+              field: parent_id
       - name: first_name
         description: Parent's first name.
       - name: middle_name
@@ -566,7 +566,7 @@ models:
           - not_null
           - relationships:
               to: source('bronze', 'teachers')
-              field: teacher_id          
+              field: teacher_id
       - name: first_name
         description: Teacher's first name.
       - name: middle_name

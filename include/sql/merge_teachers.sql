@@ -19,4 +19,4 @@ WHEN MATCHED THEN
        target.updated_at = source.$15
 WHEN NOT MATCHED THEN
    INSERT (teacher_id, first_name, middle_name, last_name, gender, date_of_birth, phone_number, email, address, hire_date, subject, qualification, years_of_experience, created_at, updated_at)
-   VALUES (source.$1, source.$2, source.$3, source.$4, source.$5, source.$6, source.$7, source.$8, source.$9, source.$10, source.$11, source.$12, source.$13, source.$14, source.$15); 
+   VALUES (source.$1, source.$2, source.$3, source.$4, source.$5, source.$6, source.$7, source.$8, source.$9, source.$10, source.$11, source.$12, source.$13, source.$14, source.$15);

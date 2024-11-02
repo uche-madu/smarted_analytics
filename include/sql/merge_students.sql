@@ -20,4 +20,4 @@ WHEN MATCHED THEN
        target.updated_at = source.$16
 WHEN NOT MATCHED THEN
    INSERT (student_id, first_name, middle_name, last_name, gender, date_of_birth, stream, grade_level, blood_group, genotype, state_of_origin, address, parent_id, registration_date, created_at, updated_at)
-   VALUES (source.$1, source.$2, source.$3, source.$4, source.$5, source.$6, source.$7, source.$8, source.$9, source.$10, source.$11, source.$12, source.$13, source.$14, source.$15, source.$16);  
+   VALUES (source.$1, source.$2, source.$3, source.$4, source.$5, source.$6, source.$7, source.$8, source.$9, source.$10, source.$11, source.$12, source.$13, source.$14, source.$15, source.$16);

@@ -30,7 +30,7 @@ parent_metrics AS (
         education_category AS parent_education_category,
         occupation AS parent_occupation,
         engagement_level AS parent_engagement_level,
-        parent_teacher_meeting_attendance AS parent_teacher_meeting_attendance,
+        parent_teacher_meeting_attendance,
         volunteer_activities_count AS parent_volunteer_activities_count,
         recent_interaction_date AS parent_recent_interaction_date,
         home_language,
@@ -40,6 +40,7 @@ parent_metrics AS (
 )
 
 SELECT
+    p.*,
     f.student_id,
     f.academic_year,
     f.term,
@@ -55,7 +56,6 @@ SELECT
     s.region,
     s.genotype_risk_category,
     s.blood_group_category,
-    p.*,
 
     -- Include dynamically generated subject-specific fields and teacher details
     {{ generate_teacher_selects('fact_results') }},
@@ -73,9 +73,9 @@ SELECT
     f.aggregate_attendance_percentage,
     f.wassce_pass
 
-FROM fact_results f
-LEFT JOIN student_data s ON f.student_id = s.student_id
-LEFT JOIN parent_metrics p ON s.parent_id = p.parent_id
+FROM fact_results AS f
+LEFT JOIN student_data AS s ON f.student_id = s.student_id
+LEFT JOIN parent_metrics AS p ON s.parent_id = p.parent_id
 
 -- Include dynamically generated teacher joins
 {{ generate_teacher_joins('fact_results') }}

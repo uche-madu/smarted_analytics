@@ -210,7 +210,7 @@ models:
 
       - name: first_name
         description: "Teacher's first name."
-      
+
       - name: middle_name
         description: "Teacher's middle name, if applicable."
 
@@ -222,7 +222,7 @@ models:
 
       - name: date_of_birth
         description: "Teacher's date of birth."
-      
+
       - name: age
         description: |
           "Calculated age based on the date of birth. Used to categorize teachers by age groups and evaluate potential generational trends in teaching outcomes."
@@ -253,7 +253,7 @@ models:
 
       - name: qualification
         description: "Teacher's highest qualification (e.g., B.Ed., M.Sc.)."
-      
+
       - name: years_of_experience
         description: "Number of years of teaching experience."
         data_tests:
@@ -267,5 +267,3 @@ models:
            This pre-categorization enables downstream analytics to analyze outcomes based on teacher qualifications."
         data_tests:
           - not_null
-
-
