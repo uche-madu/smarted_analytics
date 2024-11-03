@@ -20,8 +20,11 @@ This section would provide an overview of the project with relevant screenshots 
 
 ### Snowflake and Airflow Workflow
 ![Snowflake](images/snowflake_mart_lineage.png)
+
 The Snowflake Data Warehouse provides storage for staging views, fact tables, dimension tables, and marts.
+
 ![Airflow](images/airflow_dag_screenshot.png)
+
 The Airflow DAG automates the data pipeline, handling extraction from Google Sheets, transformation in dbt, and loading into Snowflake.
 
 ### Data Warehouse Schema
