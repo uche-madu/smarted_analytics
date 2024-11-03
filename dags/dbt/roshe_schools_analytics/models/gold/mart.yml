@@ -14,15 +14,23 @@ models:
     columns:
       - name: student_id
         description: "Unique identifier for each student."
+        data_tests:
+          - not_null
 
       - name: academic_year
         description: "Academic year for which the record applies."
+        data_tests:
+          - not_null
 
       - name: term
         description: "Term within the academic year (e.g., Term 1, Term 2)."
+        data_tests:
+          - not_null
 
       - name: grade_level
         description: "Student's grade level during the term."
+        data_tests:
+          - not_null
 
       - name: first_name
         description: "First name of the student."

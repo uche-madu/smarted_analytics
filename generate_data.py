@@ -934,7 +934,7 @@ def generate_student_parent_pairs(stream_name, num_students=30):
         )  # Engagement score based on interactions
         relationship_type = random.choice(["Parent", "Relative", "Guardian"])
         number_of_children = random.randint(1, 5)
-        email = f"{parent_first_name.lower()}.{last_name.lower()}{random.randint(10, 99)}@example.com"
+        email = f"{parent_first_name.lower()}.{last_name.lower()}{random.randint(10, 999)}@example.com"
 
         # Interaction metrics for parent
         parent_teacher_meeting_attendance = random.randint(0, 5)
@@ -1172,7 +1172,7 @@ def generate_teacher(subject):
 
     # Construct email from teacher's name and random number
     email = (
-        f"{first_name.lower()}.{last_name.lower()}{random.randint(10, 99)}@example.com"
+        f"{first_name.lower()}.{last_name.lower()}{random.randint(10, 999)}@example.com"
     )
     hire_date = fake.date_between(
         start_date=date(2014, 1, 1), end_date=date(2023, 10, 31)

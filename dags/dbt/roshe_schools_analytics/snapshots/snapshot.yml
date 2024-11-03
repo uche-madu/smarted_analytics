@@ -10,7 +10,6 @@ snapshots:
         description: "Unique identifier for each student."
         data_tests:
           - not_null
-          - unique
 
       - name: first_name
         description: "First name of the student."
@@ -73,7 +72,6 @@ snapshots:
         description: "Unique identifier for each parent."
         data_tests:
           - not_null
-          - unique
 
       - name: first_name
         description: "Parent's first name."
@@ -123,7 +121,6 @@ snapshots:
         description: "Unique identifier for each teacher."
         data_tests:
           - not_null
-          - unique
 
       - name: first_name
         description: "Teacher's first name."
